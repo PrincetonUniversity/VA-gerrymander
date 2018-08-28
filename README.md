@@ -28,5 +28,12 @@ In drawing the map, he had access to the following data:
   - Demographic data from the census at the census block level (including, importantly for this case, the African-American voting age population of the blocks and precincts)
   - A hydrologic map of major rivers, the Chesapeake Bay, and the Atlantic Ocean
   - A road map of Virginia, including everything from major highways to city streets
+  
 His process was as follows: 
-  - First, identify the 
+  - First, redraw the district boundaries to roughly coincide with city & county boundaries. While some consideration to the cores of prior districts is given, the constitutional deficiencies in the existing map diminishes this as a priority.
+  - Second, check the total population number of each district to assess the degree of population inequality in each district. The districts at this point are likely very malapportioned and need to be adjusted considerably. 
+  - Third, by looking at the population numbers in adjacent precincts, make adjustments as needed to bring the districts to within +/- 1% ideal population, which is the population deviation used in the 2011 plan and is the deviation used in the 67 districts not being changed in this redraw. 
+  - Fourth, if there is no possible way to achieve +/- 1% populatilon equality by moving precincts alone, move to the census block level and move individual blocks as needed. Care should be taken to split as few precincts as practicable while honoring other criteria. 
+  - Fifth, Once the districts are all within +/- 1% population, check the demographic data and past election result data in the districts protected by the Voting Rights Act (VRA) to see if there is a sufficient population of minority voters to ensure that the minority community has the opportunity to elect their candidate of choice. In our redraw, we identified Hillary Clinton in 2016 (primary and general elections for President) and Justin Fairfax in 2017 (primary and general elections for Virginia Lieutenant Governor) as the minority candidates of choice. 
+  - Sixth, Make adjustments to the district borders as needed to ensure that all districts are equipopulous. Do not check the partisan performance of the districts not protected by the VRA. 
+  - Seventh, perform a final check to make sure all of the VRA districts are compliant and that other federal and state criteria (one person, one vote; compactness; contiguity) are satisfied. 
