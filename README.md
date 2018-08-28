@@ -21,12 +21,12 @@ And that is something all Virginians deserve.
 While a student at William & Mary Law School, Ben participated in a class which was tasked with a hypothetical redrawing of the 11 challenged districts in the Bethune-Hill case. A press release can be found [here] (https://law.wm.edu/news/stories/2017/law-and-undergraduate-students-use-gis-tools-to-redraw-11-virginia-house-districts.php)). 
 Because of his familiarity with the political geography of this region of Virginia (as a resident of the area as recently as May 2018), and his previous use of ArcGIS in redrawing these very same districts, Ben was tasked with drawing our team's Reform Map. 
 In drawing the map, he had access to the following data: 
--The existing districting plan, as enacted by the Virginia General Assembly in 2011
--Precinct boundaries for all counties in the 33 impacted districts (the 11 districts that needed to be redrawn, and the 22 districts immediately adjacent to them
--Census block information within each of the above precincts.
--Election results at the precinct level, aggregated to the block level, for the 2016 Presidential Election and the 2017 Lieutenant Governor election.
--Demographic data from the census at the census block level (including, importantly for this case, the African-American voting age population of the blocks and precincts)
--A hydrologic map of major rivers, the Chesapeake Bay, and the Atlantic Ocean
--A road map of Virginia, including everything from major highways to city streets
+  - The existing districting plan, as enacted by the Virginia General Assembly in 2011
+  - Precinct boundaries for all counties in the 33 impacted districts (the 11 districts that needed to be redrawn, and the 22 districts immediately adjacent to them
+  - Census block information within each of the above precincts.
+  - Election results at the precinct level, aggregated to the block level, for the 2016 Presidential Election and the 2017 Lieutenant Governor election.
+  - Demographic data from the census at the census block level (including, importantly for this case, the African-American voting age population of the blocks and precincts)
+  - A hydrologic map of major rivers, the Chesapeake Bay, and the Atlantic Ocean
+  - A road map of Virginia, including everything from major highways to city streets
 His process was as follows: 
--First, identify the 
+  - First, identify the 
