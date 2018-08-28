@@ -18,6 +18,6 @@ m = folium.Map(location=[37.3, -77.1], tiles='openstreetmap',
                    zoom_start=8.4, control_scale=True)
 m.choropleth(df_reform, fill_color='none', line_weight=2, line_color='purple', name='Reform map')
 m.choropleth(df_enacted, fill_color='none', line_weight=2, line_color='green', name='Enacted map')
-
 folium.LayerControl(collapsed=False).add_to(m)
-m.save('/Users/wtadler/Repos/VA-gerrymander/map.html')
+
+m.save('map_comparison.html')
