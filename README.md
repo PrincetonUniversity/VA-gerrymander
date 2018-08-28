@@ -19,7 +19,7 @@ From our map, they can make changes to comply with other criteria as desired, bu
 And that is something all Virginians deserve.
 
 ## The Process
-While a student at William & Mary Law School, Ben participated in a class which was tasked with a hypothetical redrawing of the 11 challenged districts in the (then-pending) Bethune-Hill case. A press release can be found [here](https://law.wm.edu/news/stories/2017/law-and-undergraduate-students-use-gis-tools-to-redraw-11-virginia-house-districts.php)). 
+While a student at William & Mary Law School, Ben participated in a class which was tasked with a hypothetical redrawing of the 11 challenged districts in the (then-pending) Bethune-Hill case. A press release can be found [here](https://law.wm.edu/news/stories/2017/law-and-undergraduate-students-use-gis-tools-to-redraw-11-virginia-house-districts.php). 
 Because of his familiarity with the political geography of this region of Virginia (as a resident of the area as recently as May 2018), and his previous use of ArcGIS in redrawing these very same districts, Ben was tasked with drawing our team's Reform Map. 
 In drawing the map, he had access to the following data: 
   - The existing districting plan, as enacted by the Virginia General Assembly in 2011
@@ -29,6 +29,7 @@ In drawing the map, he had access to the following data:
   - Demographic data from the census at the census block level (including, importantly for this case, the African-American voting age population of the blocks and precincts)
   - A hydrologic map of major rivers, the Chesapeake Bay, and the Atlantic Ocean
   - A road map of Virginia, including everything from major highways to city streets
+He did not have access to the addresses of incumbents or potential challengers. Because Virginia does not register voters on the basis of party, he also lacked such data.
   
 His process was as follows: 
   - First, redraw the district boundaries to roughly coincide with city & county boundaries. While some consideration to the cores of prior districts is given, the constitutional deficiencies in the existing map diminishes this as a priority.
