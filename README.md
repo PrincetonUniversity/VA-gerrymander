@@ -2,6 +2,8 @@
 ### Ben Williams, William T. Adler, and Samuel S.-H. Wang, of the [Princeton Gerrymandering Project](http://gerrymander.princeton.edu/)
 ### Additional work by Connor Moffatt and Jacob Wachspress
 
+<p align="center"><img src="https://raw.githubusercontent.com/PrincetonUniversity/VA-gerrymander/master/Shapefiles/Reform%20map/stacked_richmondinset.jpg" width="400"></p>
+
 This repository contains a reform map drawn by the Princeton Gerrymandering Project to remedy the unconstitutional districts recently struck down as racial gerrymanders in Bethune-Hill v. Va. State Bd. of Elections (opinion [here](http://electionlawblog.org/wp-content/uploads/Virginia.pdf)). 
 On August 30, 2018, the General Assembly will enter a special session to consider proposals from both political parties and the public on how the afflicted districts should be remedied.
 We present our map, and its underlying data, as an option for legislators to consider.
