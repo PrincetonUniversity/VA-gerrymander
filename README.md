@@ -25,7 +25,7 @@ In drawing the map, he had access to the following data:
   - The existing districting plan, as enacted by the Virginia General Assembly in 2011
   - Precinct boundaries for all counties in the 33 impacted districts (the 11 districts that needed to be redrawn, and the 22 districts immediately adjacent to them
   - Census block information within each of the above precincts.
-  - Election results at the precinct level, disaggregated to the block level, for the 2016 Presidential Election and the 2017 Lieutenant Governor election.
+  - Election results at the precinct level, disaggregated to the block level, for the 2016 Presidential Election and the 2017 Lieutenant Governor election (two recent elections which captured with high certainty the minority candidate-of-choice). While he also had access to data from the 2017 Gubernatorial and 2017 Attorney General elections, he did not consider them in the creation of this map.
   - Demographic data from the census at the census block level (including, importantly for this case, the African-American voting age population of the blocks and precincts)
   - A hydrologic map of major rivers, the Chesapeake Bay, and the Atlantic Ocean
   - A road map of Virginia, including everything from major highways to city streets
