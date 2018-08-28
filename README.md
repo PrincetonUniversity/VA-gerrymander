@@ -19,7 +19,7 @@ From our map, they can make changes to comply with other criteria as desired, bu
 And that is something all Virginians deserve.
 
 ## The Process
-While a student at William & Mary Law School, Ben participated in a class which was tasked with a hypothetical redrawing of the 11 challenged districts in the Bethune-Hill case. A press release can be found [here](https://law.wm.edu/news/stories/2017/law-and-undergraduate-students-use-gis-tools-to-redraw-11-virginia-house-districts.php)). 
+While a student at William & Mary Law School, Ben participated in a class which was tasked with a hypothetical redrawing of the 11 challenged districts in the (then-pending) Bethune-Hill case. A press release can be found [here](https://law.wm.edu/news/stories/2017/law-and-undergraduate-students-use-gis-tools-to-redraw-11-virginia-house-districts.php)). 
 Because of his familiarity with the political geography of this region of Virginia (as a resident of the area as recently as May 2018), and his previous use of ArcGIS in redrawing these very same districts, Ben was tasked with drawing our team's Reform Map. 
 In drawing the map, he had access to the following data: 
   - The existing districting plan, as enacted by the Virginia General Assembly in 2011
