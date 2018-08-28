@@ -29,6 +29,7 @@ In drawing the map, he had access to the following data:
   - Demographic data from the census at the census block level (including, importantly for this case, the African-American voting age population of the blocks and precincts)
   - A hydrologic map of major rivers, the Chesapeake Bay, and the Atlantic Ocean
   - A road map of Virginia, including everything from major highways to city streets
+
 He did not have access to the addresses of incumbents or potential challengers. Because Virginia does not register voters on the basis of party, he also lacked such data.
   
 His process was as follows: 
