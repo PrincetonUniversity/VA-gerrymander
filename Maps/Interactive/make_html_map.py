@@ -4,6 +4,8 @@ import geopandas as gpd
 import numpy as np
 import shapely.ops as so
 
+np.random.seed(100)
+
 affected = [63, 69, 70, 71, 74, 77, 80, 89, 90, 92, 95]
 adjacent= [27, 55, 61, 62, 64, 66, 68, 72, 73, 75, 76, 78, 79, 81, 83, 85, 91, 93, 94, 96, 97, 100]
 bh = affected + adjacent
