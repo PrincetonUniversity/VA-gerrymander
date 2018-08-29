@@ -1,0 +1,1 @@
+This folder contains the shapefile for the map proposed by the [VA House Democrats](http://redistricting.dls.virginia.gov/2010/RedistrictingPlans.aspx#42) on 8/29/2018.

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xml:lang="en"><Esri><CreaDate>20180828</CreaDate><CreaTime>15065400</CreaTime><ArcGISFormat>1.0</ArcGISFormat><SyncOnce>TRUE</SyncOnce><DataProperties><lineage><Process ToolSource="C:\Program Files (x86)\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\DeleteField" Date="20180828" Time="150654">DeleteField ToscanoPlan SHAPE_Leng;SHAPE_Area</Process></lineage></DataProperties></Esri></metadata>
