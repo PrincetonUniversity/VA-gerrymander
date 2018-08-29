@@ -1,4 +1,6 @@
-This shapefile represents the voting precincts in the 33 districts relevant to the Bethune-Hill case. As identified by the [Virginia Public Access Project](https://www.vpap.org/visuals/visual/ruling-could-impact-1-3-house-districts), these districts are:
+![precinct map](precinctmap.png)
+
+This folder contains the shapefile for the voting precincts in the 33 districts relevant to the Bethune-Hill case. As identified by the [Virginia Public Access Project](https://www.vpap.org/visuals/visual/ruling-could-impact-1-3-house-districts), these districts are:
   - 11 affected districts identified by the federal district court as racial gerrymanders: [63, 69, 70, 71, 74, 77, 80, 89, 90, 92, 95]
   - 22 districts directly adjacent to the above: [27, 55, 61, 62, 64, 66, 68, 72, 73, 75, 76, 78, 79, 81, 83, 85, 91, 93, 94, 96, 97, 100]
   
