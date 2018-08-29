@@ -1,82 +1,69 @@
 import folium
 import geopandas as gpd
-%matplotlib inline
 import numpy as np
-import shapely.ops as so
-import random
+import shapely
+import fileinput
+import matplotlib
 
 # get spaced out colors, shuffle them
-import matplotlib
 cmap = matplotlib.cm.get_cmap('gist_rainbow')
 colors = cmap(np.linspace(0,1,33))
 np.random.seed(105)
 np.random.shuffle(colors)
 
+# identify relevant districts
 affected = [63, 69, 70, 71, 74, 77, 80, 89, 90, 92, 95]
 adjacent= [27, 55, 61, 62, 64, 66, 68, 72, 73, 75, 76, 78, 79, 81, 83, 85, 91, 93, 94, 96, 97, 100]
-bh = affected + adjacent
+bh = [str(i) for i in affected + adjacent]
 
+# map boundaries, SW and NE points
 bounds = [[36.482, -78.91], [38.22,-75.19]]
 
-################## #
-# load enacted map #
-################## #
-enacted_map = 'Maps/Enacted map/enacted.shp'
-df_enacted = gpd.read_file(enacted_map)
+# info on what maps to load
+maps = {'reform': {'name': 'Reform map',
+                   'path': 'Maps/Reform map/Districts map bethune-hill final.shp',
+                   'district_colname': 'DISTRICT',
+                   'show': True},
+        'enacted': {'name': 'Enacted map',
+                    'path': 'Maps/Enacted map/enacted.shp',
+                    'district_colname': 'ID',
+                    'show': False},
+        'dems':    {'name': 'VA House Dems map',
+                    'path': 'Maps/House Dems map/HB7001.shp',
+                    'district_colname': 'OBJECTID',
+                    'show': False}
+        }
 
-# turn non-BH districts into a single shape
-nonBH = so.cascaded_union(df_enacted.loc[~df_enacted['ID'].isin(bh), 'geometry'])
-
-# filter to just relevant districts
-df_enacted = df_enacted[df_enacted['ID'].isin(bh)]
-
-# some stuff for labeling
-df_enacted['Empty'] = ''
-
-
-###################
-# load reform map #
-###################
-
-reform_map = 'Maps/Reform map/Districts map bethune-hill final.shp'
-df_reform = gpd.read_file(reform_map)[1:]
-df_reform['DISTRICT'] = df_reform['DISTRICT'].astype(str)
-
-# some stuff for labeling
-df_reform['Empty'] = ''
-
-
-#######################
-# load house Dems map #
-#######################
-
-dem_map = 'Maps/House Dems map/HB7001.shp'
-df_dem = gpd.read_file(dem_map)
-
-# filter to relevant districts
-df_dem = df_dem[df_dem['OBJECTID'].isin(bh)]
-
-# some stuff for labeling
-df_dem['Empty'] = ''
-
-
-# assign colors as shuffled above
 def rgb_to_hex(rgb):
     f = lambda x: int(x*255)
     return '#%02X%02X%02X' % (f(rgb[0]), f(rgb[1]), f(rgb[2]))
-    
-for i, district in enumerate(bh):
-    color = rgb_to_hex(colors[i])
-    # color = '#%02X%02X%02X' % (int(colors[i][0]*255),int(colors[i][1]*255),int(colors[i][2]*255))
-    df_enacted.loc[df_enacted['ID']==district, 'color'] = color
-    df_reform.loc[df_reform['DISTRICT'].astype(int)==district, 'color'] = color
-    df_dem.loc[df_dem['OBJECTID']==district, 'color'] = color
 
+for mapname in maps:
+    df = gpd.read_file(maps[mapname]['path'])
+    
+    if mapname=='enacted':
+        nonBH = shapely.ops.cascaded_union(df.loc[~df[maps['enacted']['district_colname']].isin(bh), 'geometry'])
+    
+    df[maps[mapname]['district_colname']] = df[maps[mapname]['district_colname']].astype(str)
+    df = df[df[maps[mapname]['district_colname']].isin(bh)]
+    
+    # assign colors as shuffled
+    for i, district in enumerate(bh):
+        color = rgb_to_hex(colors[i])
+        df.loc[df[maps[mapname]['district_colname']]==district, 'color'] = color
+
+    # for labeling purposes
+    df['Empty'] = ''
+    
+    maps[mapname]['df'] = df
+
+# polygon style
 style_function = lambda x: {'fillColor': x['properties']['color'] if 'color' in x['properties'] else '#fff',
                             'fillOpacity': 0.35,
                             'weight': 1.4,
                             'color': '#888'}
 
+# style when mousing over
 highlight_function = lambda x: {'fillColor': x['properties']['color'] if 'color' in x['properties'] else '#fff',
                             'fillOpacity': 0.65,
                             'weight': 1.4,
@@ -89,14 +76,15 @@ highlight_function = lambda x: {'fillColor': x['properties']['color'] if 'color'
 
 m = folium.Map(tiles=None, control_scale=True, min_lat=bounds[0][0], max_lat=bounds[1][0], min_lon=bounds[0][1], max_lon=bounds[1][1], max_bounds=True)
 
-tooltip_reform = folium.features.GeoJsonTooltip(['Empty', 'DISTRICT'], aliases=['Reform map', 'District'])
-folium.features.GeoJson(df_reform, name='Reform map', style_function=style_function, highlight_function=highlight_function, show=True, tooltip=tooltip_reform).add_to(m)
-
-tooltip_enacted = folium.features.GeoJsonTooltip(['Empty', 'ID'], aliases=['Enacted map', 'District'])
-folium.features.GeoJson(df_enacted, name='Enacted map', style_function=style_function, highlight_function=highlight_function, show=False, tooltip=tooltip_enacted).add_to(m)
-
-tooltip_dem = folium.features.GeoJsonTooltip(['Empty', 'OBJECTID'], aliases=['VA House Dems map', 'District'])
-folium.features.GeoJson(df_dem, name='VA House Dems map', style_function=style_function, highlight_function=highlight_function, show=False, tooltip=tooltip_dem).add_to(m)
+for mapname in maps:
+    tooltip = folium.features.GeoJsonTooltip(['Empty', maps[mapname]['district_colname']],
+                                             aliases=[maps[mapname]['name'], 'District'])
+    folium.features.GeoJson(maps[mapname]['df'],
+                            name=maps[mapname]['name'],
+                            style_function=style_function,
+                            highlight_function=highlight_function,
+                            show=maps[mapname]['show'],
+                            tooltip=tooltip).add_to(m)
 
 # non-relevant VA districts
 folium.features.GeoJson(nonBH, show=True, control=False, style_function=lambda x: {'fillColor': '#000', 'weight': 0, 'fillOpacity': .5}, name='nonBH districts', tooltip='Non-affected districts').add_to(m)
@@ -123,5 +111,17 @@ m.get_root().header.add_child(folium.Element(
     ' initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />'
 ))
 
-m.save('Maps/interactive/map_comparison.html')
+filename = 'Maps/interactive/map_comparison.html'
+m.save(filename)
 
+# switch layer controls from checkbox to radio buttons by finding and replacing
+with fileinput.FileInput(filename, inplace=True) as file:
+    for line in file:
+        print(line.replace('base_layers :', 'tmp'), end='')
+with fileinput.FileInput(filename, inplace=True) as file:
+    for line in file:
+        print(line.replace('overlays :', 'base_layers :'), end='')
+with fileinput.FileInput(filename, inplace=True) as file:
+    for line in file:
+        print(line.replace('tmp', 'overlays :'), end='')
+        
