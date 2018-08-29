@@ -38,7 +38,7 @@ style_function = lambda x: {'fillColor': random_color(),
 
 m = folium.Map(tiles='openstreetmap', control_scale=True, min_zoom=8)
 
-tooltip_reform = folium.features.GeoJsonTooltip(['Empty', 'District'], aliases=['Reform map', 'District'])
+tooltip_reform = folium.features.GeoJsonTooltip(['Empty', 'DISTRICT'], aliases=['Reform map', 'District'])
 
 folium.features.GeoJson(df_reform, name='Reform map', style_function=style_function, show=True, tooltip=tooltip_reform).add_to(m)
 
