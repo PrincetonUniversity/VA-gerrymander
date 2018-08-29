@@ -1,7 +1,7 @@
 ## Accompanying data and analysis for "A Fresh Start for Virginia Districting"
 ### Ben Williams, William T. Adler, and Samuel S.-H. Wang, of the [Princeton Gerrymandering Project](http://gerrymander.princeton.edu/)
 ### Additional work by Connor Moffatt and Jacob Wachspress
-<p align="center"><a href="https://rawgit.com/PrincetonUniversity/VA-gerrymander/master/Maps/Interactive/map_comparison.html"><img src="Maps/Interactive/map_preview.png" width="700"></a></p>
+<p align="center"><a href="https://rawgit.com/PrincetonUniversity/VA-gerrymander/master/Maps/Interactive/map_comparison.html"><img src="Maps/Reform map/reform_preview.png" width="700"></a></p>
 <p align="center">Click to explore the maps interactively.</p>
 
 This repository contains a Reform Map drawn by the Princeton Gerrymandering Project to remedy the unconstitutional districts recently struck down as racial gerrymanders in Bethune-Hill v. Va. State Bd. of Elections (opinion [here](http://electionlawblog.org/wp-content/uploads/Virginia.pdf)). 
