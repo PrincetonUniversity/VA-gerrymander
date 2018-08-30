@@ -61,24 +61,29 @@ for mapname in maps:
     df = ai.aggregate(blocks_w_race, df, source_columns=['BVAP', 'VAP'], method='greatest_area')[1]
 
     df['prop_BVAP_' + mapname] = df['BVAP'] / df['VAP']
+    df = df.rename(columns={'BVAP': 'BVAP_' + mapname,
+                            'VAP': 'VAP_' + mapname
 
     df.loc[df[common_colname].isin([str(i) for i in affected]), 'status'] = affected_label
     df.loc[df[common_colname].isin([str(i) for i in adjacent]), 'status'] = adjacent_label
 
     maps[mapname]['df'] = df
-    
+
 keys = list(maps)
 mapname = keys[0]
-df = maps[mapname]['df'][[common_colname, 'status', 'prop_BVAP_' + mapname]]
+df = maps[mapname]['df'][[common_colname, 'status'] + [i + '_' + mapname for i in ['BVAP', 'VAP', 'prop_BVAP']]]
 for mapname in keys[1:]:
-    df = df.merge(maps[mapname]['df'][[common_colname, 'prop_BVAP_' + mapname]],
+    df = df.merge(maps[mapname]['df'][[common_colname] + [i + '_' + mapname for i in ['BVAP', 'VAP', 'prop_BVAP']]],
                       on=common_colname)
 
 df[common_colname] = df[common_colname].astype(int)
 sorted = df.sort_values(by=['status', common_colname], ascending=[False, True])
+sorted
+
 sorted.to_csv('Analysis/BVAP/bvap_comparison.csv', index=False, float_format='%.3f')
 
-mean = pd.DataFrame(df.loc[df['status']==affected_label].mean()).iloc[2:].T.rename(index={0: 'mean BVAP in affected districts'})
+
+mean = pd.DataFrame(df.loc[df['status']==affected_label, ['prop_BVAP_' + i for i in maps]].mean()).T.rename(index={0: 'mean BVAP in affected districts'})
 mean.to_csv('Analysis/BVAP/mean_bvap_comparison.csv', index=False, float_format='%.3f')
 
 def markdown_table(df, precision=3, showindex=False):
