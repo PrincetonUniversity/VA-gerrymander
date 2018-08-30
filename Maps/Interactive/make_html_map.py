@@ -59,6 +59,12 @@ maps = {'reform': {'name': 'Reform map',
                     'show': False}
         }
 
+''' CHOROPLETHS TODO
+you'll need shapefiles for the choropleths with the value of interest in a named column
+make dict of choropleth shapefiles like the above
+replace the district_colname key with 'bvap_prop', and the value indicates the column of the shapefile
+'''
+
 common_colname = 'district_no'
 
 for mapname in maps:
@@ -79,6 +85,11 @@ for mapname in maps:
     
     maps[mapname]['df'] = df
 
+''' CHOROPLETHS TODO
+make a loop just like the above that loops over all the choropleths you might want
+'''
+
+
 # polygon style
 style_function = lambda x: {'fillColor': x['properties']['color'] if 'color' in x['properties'] else '#fff',
                             'fillOpacity': 0.2 if x['properties']['status']==adjacent_label else 0.58,
@@ -91,6 +102,13 @@ highlight_function = lambda x: {'fillColor': x['properties']['color'] if 'color'
                                 'weight': 1.5 if x['properties']['status']==adjacent_label else 3.2,
                                 'color': '#888'}
 
+''' CHOROPLETHS TODO
+use matplotlib's colormap functions to make the inferno_map_color() function to convert a proportion to a hex color from inferno.
+you can use the rgb_to_hex() function already defined at the top
+
+then make a style_function_choropleth like this, except with fillcolor being something like:
+'fillColor': inferno_map_color(x['properties']['bvap_prop'])
+'''
 
 ###################
 # make folium map #
@@ -106,7 +124,16 @@ for mapname in maps:
                             style_function=style_function,
                             highlight_function=highlight_function,
                             show=maps[mapname]['show'],
-                            tooltip=tooltip).add_to(m)
+                            tooltip=tooltip,
+                            overlay=False).add_to(m)
+
+''' CHOROPLETHS TODO
+folium.features.GeoJson(choropleth_df, name='BVAP/VAP, style_function=style_function_choropleth, overlay=True')
+Not sure if this should go here or before the above loop where the other layers are added.
+
+Then add a colorbar that is visible whenever this layer is visible. Not sure how to do that, figure it out!
+'''
+
 
 # non-relevant VA districts
 folium.features.GeoJson(nonBH, show=True, control=False, style_function=lambda x: {'fillColor': '#000', 'weight': 0, 'fillOpacity': .5}, name='nonBH districts', tooltip='Non-affected districts').add_to(m)
@@ -136,14 +163,3 @@ m.get_root().header.add_child(folium.Element(
 filename = 'Maps/interactive/map_comparison.html'
 m.save(filename)
 
-# switch layer controls from checkbox to radio buttons by finding and replacing
-with fileinput.FileInput(filename, inplace=True) as file:
-    for line in file:
-        print(line.replace('base_layers :', 'tmp'), end='')
-with fileinput.FileInput(filename, inplace=True) as file:
-    for line in file:
-        print(line.replace('overlays :', 'base_layers :'), end='')
-with fileinput.FileInput(filename, inplace=True) as file:
-    for line in file:
-        print(line.replace('tmp', 'overlays :'), end='')
-        
