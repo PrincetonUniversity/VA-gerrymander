@@ -106,7 +106,9 @@ for mapname in maps:
                             style_function=style_function,
                             highlight_function=highlight_function,
                             show=maps[mapname]['show'],
-                            tooltip=tooltip).add_to(m)
+                            tooltip=tooltip,
+                            overlay=False).add_to(m)
+
 
 # non-relevant VA districts
 folium.features.GeoJson(nonBH, show=True, control=False, style_function=lambda x: {'fillColor': '#000', 'weight': 0, 'fillOpacity': .5}, name='nonBH districts', tooltip='Non-affected districts').add_to(m)
@@ -136,14 +138,3 @@ m.get_root().header.add_child(folium.Element(
 filename = 'Maps/interactive/map_comparison.html'
 m.save(filename)
 
-# switch layer controls from checkbox to radio buttons by finding and replacing
-with fileinput.FileInput(filename, inplace=True) as file:
-    for line in file:
-        print(line.replace('base_layers :', 'tmp'), end='')
-with fileinput.FileInput(filename, inplace=True) as file:
-    for line in file:
-        print(line.replace('overlays :', 'base_layers :'), end='')
-with fileinput.FileInput(filename, inplace=True) as file:
-    for line in file:
-        print(line.replace('tmp', 'overlays :'), end='')
-        
