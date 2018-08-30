@@ -6,7 +6,7 @@
 <p align="center">Click to explore the maps interactively.</p>
 
 This repository contains a Reform Map drawn by the Princeton Gerrymandering Project to remedy the unconstitutional districts recently struck down as racial gerrymanders in Bethune-Hill v. Va. State Bd. of Elections (opinion [here](http://electionlawblog.org/wp-content/uploads/Virginia.pdf)). 
-It is intended to accompany the op-ed our team wrote in the Virginian Pilot entitled "A Fresh Start for Virginia Redistricting.
+It is intended to accompany the op-ed our team wrote in the Virginian Pilot entitled "A Fresh Start for Virginia Redistricting."
 On August 30, 2018, the General Assembly will enter a special session to consider proposals from both political parties and the public on how the afflicted districts should be remedied.
 We present our map, and its underlying data, as an option for legislators to consider.
 Our map was not drawn by someone well-versed in redistricting software, nor was it drawn with any particular desired outcome.
