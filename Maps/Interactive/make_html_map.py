@@ -42,7 +42,7 @@ colordict['97']['color'] = colordict['75']['color']
 color_df = pd.DataFrame.from_dict(colordict, orient='index')
 
 # map boundaries, SW and NE points
-bounds = [[36.482, -78.91], [38.22,-75.19]]
+bounds = [[36.55, -78.91], [38.5,-75]]
 
 # info on what maps to load
 maps = {'reform': {'name': 'Reform map',
@@ -81,14 +81,14 @@ for mapname in maps:
 
 # polygon style
 style_function = lambda x: {'fillColor': x['properties']['color'] if 'color' in x['properties'] else '#fff',
-                            'fillOpacity': 0.2 if x['properties']['status']==adjacent_label else 0.58,
-                            'weight': 1.5 if x['properties']['status']==adjacent_label else 3.2,
+                            'fillOpacity': 0.18 if x['properties']['status']==adjacent_label else 0.55,
+                            'weight': 1.5,
                             'color': '#888'}
 
 # style when mousing over
 highlight_function = lambda x: {'fillColor': x['properties']['color'] if 'color' in x['properties'] else '#fff',
-                                'fillOpacity': 0.65,
-                                'weight': 1.5 if x['properties']['status']==adjacent_label else 3.2,
+                                'fillOpacity': 0.7,
+                                'weight': 1.5,
                                 'color': '#888'}
 
 
