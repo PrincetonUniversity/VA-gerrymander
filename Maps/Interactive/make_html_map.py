@@ -21,7 +21,7 @@ def rgb_to_hex(rgb):
 # identify relevant districts
 affected = [63, 69, 70, 71, 74, 77, 80, 89, 90, 92, 95]
 adjacent= [27, 55, 61, 62, 64, 66, 68, 72, 73, 75, 76, 78, 79, 81, 83, 85, 91, 93, 94, 96, 97, 100]
-# bh = [str(i) for i in affected + adjacent]
+bh = [str(i) for i in affected + adjacent]
 colordict = {}
 affected_label = 'Ruled unconstitutional as enacted'
 adjacent_label = 'Adjacent to a district ruled unconstitutional'
