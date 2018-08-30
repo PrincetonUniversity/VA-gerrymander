@@ -94,8 +94,8 @@ folium.raster_layers.TileLayer(control=False, min_zoom=8).add_to(m)
 folium.LayerControl(collapsed=False).add_to(m)
 
 info_box = '''
-     <div style="position: fixed; top: 12px; left: 70px; border: 0px; z-index: 9999; font-size: 13px; border-radius: 5px; background-color: #fff; padding: 8px; box-shadow: 0px 2px 4px #888; opacity: 0.85; width: calc(100% - 250px); max-width: 67em; overflow: auto; white-space: nowrap">
-     <b style="font-size: 16px">Accompanying maps for "<a style="color: #e77500" href="https://pilotonline.com/opinion/columnist/guest/article_7a44a308-abb4-11e8-bec1-0361d680b78f.html">Lawmakers should fix inequitable district lines</a>", <em>The Virginian-Pilot</em>, August 30, 2018</b><br>
+     <div style="position: fixed; top: 12px; left: 70px; border: 0px; z-index: 9999; font-size: 13px; border-radius: 5px; background-color: #fff; padding: 8px; box-shadow: 0px 2px 4px #888; opacity: 0.85; width: calc(100% - 270px); max-width: 45em; overflow: auto; white-space: nowrap">
+     <b style="font-size: 16px">Accompanying maps for "<a style="color: #e77500" href="https://pilotonline.com/opinion/columnist/guest/article_7a44a308-abb4-11e8-bec1-0361d680b78f.html">Lawmakers should fix inequitable district lines</a>"<br></b><b><em>The Virginian-Pilot</em>, August 30, 2018</b><br>
      Ben Williams, William T. Adler, and Samuel S.-H. Wang of the <a style="color: #e77500" href="http://gerrymander.princeton.edu/">Princeton Gerrymandering Project</a><br>
      Additional work by Connor Moffatt and Jacob Wachspress<br>
      More info <a style="color: #e77500" href="https://github.com/PrincetonUniversity/VA-gerrymander">here</a>
@@ -111,7 +111,7 @@ m.get_root().header.add_child(folium.Element(
     ' initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />'
 ))
 
-filename = 'Analysis/interactive/map_comparison.html'
+filename = 'Maps/interactive/map_comparison.html'
 m.save(filename)
 
 # switch layer controls from checkbox to radio buttons by finding and replacing
