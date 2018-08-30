@@ -1,4 +1,5 @@
 Proportion of voting-age population that identifies as Black or African-American (one race only), by district.
+
 |                                 |   prop_BVAP_reform |   prop_BVAP_enacted |   prop_BVAP_dems |
 |:--------------------------------|-------------------:|--------------------:|-----------------:|
 | mean BVAP in affected districts |              0.453 |               0.566 |            0.506 |

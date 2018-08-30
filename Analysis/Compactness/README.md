@@ -1,4 +1,5 @@
 Various compactness metrics:
+
 |                   |   Convex hull ratio (higher is better) |   Polsby-Popper (higher is better) |   Reock (higher is better) |   Schwartzberg (lower is better) |
 |:------------------|---------------------------------------:|-----------------------------------:|---------------------------:|---------------------------------:|
 | Enacted map       |                                  0.663 |                              0.22  |                      0.341 |                             2.26 |
