@@ -119,6 +119,13 @@ folium.raster_layers.TileLayer(control=False, min_zoom=8).add_to(m)
 
 folium.LayerControl(collapsed=False).add_to(m)
 
+folium.map.FitBounds(bounds).add_to(m)
+
+m.get_root().header.add_child(folium.Element(
+    '<meta name="viewport" content="width=device-width,'
+    ' initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />'
+))
+
 info_box = '''
      <div style="position: fixed; top: 12px; left: 70px; border: 0px; z-index: 9999; font-size: 13px; border-radius: 5px; background-color: #fff; padding: 8px; box-shadow: 0px 2px 4px #888; opacity: 0.85; width: calc(100% - 270px); max-width: 45em; overflow: auto; white-space: nowrap">
      <b style="font-size: 16px">Accompanying maps for "<a style="color: #e77500" href="https://pilotonline.com/opinion/columnist/guest/article_7a44a308-abb4-11e8-bec1-0361d680b78f.html">Lawmakers should fix inequitable district lines</a>"<br></b><b><em>The Virginian-Pilot</em>, August 30, 2018</b><br>
@@ -127,16 +134,8 @@ info_box = '''
      More info <a style="color: #e77500" href="https://github.com/PrincetonUniversity/VA-gerrymander">here</a>
       </div>
     '''
-    
+m.save('Maps/interactive/map_comparison_no_infobox.html')    
 m.get_root().html.add_child(folium.Element(info_box))
+m.save('Maps/interactive/map_comparison.html')    
 
-folium.map.FitBounds(bounds).add_to(m)
-
-m.get_root().header.add_child(folium.Element(
-    '<meta name="viewport" content="width=device-width,'
-    ' initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />'
-))
-
-filename = 'Maps/interactive/map_comparison.html'
-m.save(filename)
 
