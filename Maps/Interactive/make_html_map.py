@@ -47,7 +47,7 @@ color_df = pd.DataFrame.from_dict(colordict, orient='index')
 bounds = [[36.55, -78.91], [38.5,-75]]
 
 # info on what maps to load
-maps = {'reform': {'name': 'Reform map',
+maps = {'reform': {'name': 'PGP Reform map',
                    'path': 'Maps/Reform map/Districts map bethune-hill final.shp',
                    'district_colname': 'DISTRICT',
                    'show': True},
