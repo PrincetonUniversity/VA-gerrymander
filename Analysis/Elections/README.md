@@ -1,0 +1,1 @@
+We did not consider partisanship in the creation of our map, but we have been fielding questions about the hypothetical election results under each proposed map. This folder contains some early election analysis.
