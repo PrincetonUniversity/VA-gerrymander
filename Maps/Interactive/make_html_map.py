@@ -14,6 +14,9 @@ def rgb_to_hex(rgb):
     f = lambda x: int(x*255)
     return '#%02X%02X%02X' % (f(rgb[0]), f(rgb[1]), f(rgb[2]))
 
+# Define outline color
+outline_col = '#42f4ee'
+
 # set the color map
 cmap = cm.get_cmap('gist_rainbow')
 
@@ -61,7 +64,11 @@ bounds = [[36.482, -78.91], [38.22,-75.19]]
     # district_colname: name of column that refers to a given district
     # show: ???
     
+    
+# BH_Tracts_with_BVAP_VAP_intersection_final
+    
 start_path = 'C:/Users/conno/Documents/GitHub/VA-gerrymander/'
+
 maps = {'reform': {'name': 'Reform map',
                    'path': start_path + 'Maps/Reform map/Districts map ' + \
                            'bethune-hill final.shp',
@@ -77,6 +84,17 @@ maps = {'reform': {'name': 'Reform map',
                     'show': False}
         }
 
+# =============================================================================
+# tract_path = ''
+# chloro_maps = {'VAP': {'name': 'VAP per sq. mi',
+#                        'path': tract_path,
+#                        'district_colname'},
+#                'BVAP': {'BVAP per sq. mi'},
+#                'prop': {'BVAP / VAP'},
+#         }
+# 
+# =============================================================================
+
 ''' CHOROPLETHS TODO
 you'll need shapefiles for the choropleths with the value of interest in a named column
 make dict of choropleth shapefiles like the above
@@ -85,18 +103,23 @@ replace the district_colname key with 'bvap_prop', and the value indicates the c
 
 common_colname = 'district_no'
 
-#Iterate through every option on the interactive map
+# Iterate through every option on the interactive map
 for mapname in maps:
+    # load in dataframe
     df = gpd.read_file(maps[mapname]['path'])
     
+    # Merge all of the non Bethune-Hill districts into one district
     if mapname=='enacted':
         nonBH = shapely.ops.cascaded_union(df.loc[\
                                                   ~df[maps['enacted']\
                                                       ['district_colname']]\
                                                       .isin(bh), 'geometry'])
     
+    # Make the identifying column name district_no
     df = df.rename(columns={maps[mapname]['district_colname']: common_colname})
     df[common_colname] = df[common_colname].astype(str)
+    
+    # Filter out districts that are not Bethune-Hill districts
     df = df[df[common_colname].isin(bh)]
     
     # assign colors as shuffled
@@ -105,14 +128,17 @@ for mapname in maps:
     # for labeling purposes
     df['Empty'] = ''
     
+    # Place dataframe into the maps dict
     maps[mapname]['df'] = df
 
 ''' CHOROPLETHS TODO
 make a loop just like the above that loops over all the choropleths you might want
 '''
 
-# polygon style
-style_function = lambda x: {'fillColor': x['properties']['color'] if 'color'\
+# Set sitting style and style when cursor is on top. Inc
+
+# Create style functions for fill and outline maps
+style_function_fill = lambda x: {'fillColor': x['properties']['color'] if 'color'\
                                             in x['properties'] else '#fff',
                             'fillOpacity': 0.2 if x['properties']['status']==\
                                                 adjacent_label else 0.58,
@@ -120,13 +146,24 @@ style_function = lambda x: {'fillColor': x['properties']['color'] if 'color'\
                                             adjacent_label else 3.2,
                             'color': '#888'}
 
-# style when mousing over
-highlight_function = lambda x: {'fillColor': x['properties']['color'] if \
-                                        'color' in x['properties'] else '#fff',
-                                'fillOpacity': 0.65,
-                                'weight': 1.5 if x['properties']['status']==\
-                                                    adjacent_label else 3.2,
+# Create highlight functions for fill and highlight maps
+highlight_function_fill = lambda x: {'fillColor': x['properties']['color'] if \
+                                'color' in x['properties'] else '#fff',
+                                'fillOpacity': 0.7,
+                                'weight': 1.5,
                                 'color': '#888'}
+                            
+style_function_out = lambda x: {'fillColor': x['properties']['color'] \
+                                if 'color' in x['properties'] else '#fff',
+                            'color': outline_col,
+                            'fillOpacity': 0,
+                            'weight': 3}
+
+# style when mousing over
+highlight_function_out = lambda x: {'fillColor': '#adadad',
+                                'fillOpacity': 0.4,
+                                'weight': 5,
+                                'color': outline_col}
 
 ''' CHOROPLETHS TODO
 use matplotlib's colormap functions to make the inferno_map_color() function to convert a proportion to a hex color from inferno.
@@ -140,22 +177,53 @@ then make a style_function_choropleth like this, except with fillcolor being som
 # make folium map #
 ###################
 
+# Initialize the Interactive map with the correct bounds
 m = folium.Map(tiles=None, control_scale=True, min_lat=bounds[0][0], \
                max_lat=bounds[1][0], min_lon=bounds[0][1], \
                max_lon=bounds[1][1], max_bounds=True)
 
+# Temporary delete to see changes
+maps2 = maps.copy()
+maps3 = maps.copy()
+del maps2['dems']
+del maps3['reform']
+del maps3['enacted']
+
+
+    
+# Set up  maps with fill
 for mapname in maps:
     tooltip = folium.features.GeoJsonTooltip(['Empty', 'status', \
                                               common_colname],\
                                              aliases=[maps[mapname]['name'],\
                                                       'Status', 'District'])
     folium.features.GeoJson(maps[mapname]['df'],
-                            name=maps[mapname]['name'],
-                            style_function=style_function,
-                            highlight_function=highlight_function,
+                            name=maps[mapname]['name'] + ' Fill',
+                            style_function=style_function_fill,
+                            highlight_function=highlight_function_fill,
                             show=maps[mapname]['show'],
                             tooltip=tooltip,
                             overlay=False).add_to(m)
+
+# Set up maps with outline
+for mapname in maps:
+    tooltip = folium.features.GeoJsonTooltip(['Empty', 'status', \
+                                              common_colname],\
+                                             aliases=[maps[mapname]['name'],\
+                                                      'Status', 'District'])
+    folium.features.GeoJson(maps[mapname]['df'],
+                            name=maps[mapname]['name'] + ' Outline',
+                            style_function=style_function_out,
+                            highlight_function=highlight_function_out,
+                            show=maps[mapname]['show'],
+                            tooltip=tooltip,
+                            overlay=False).add_to(m)
+
+# Load Choropleth Dataframe
+choro_path = "G:/Team Drives/princeton_gerrymandering_project/mapping/VA/Bethune Hill/BH Choro SHP/BH_Choro.json"
+
+m.choropleth(geo_data=choro_path)#, key_on='feature.proprties.Pop/Area', 
+             #fill_color='PuBu', threshold_scale=[0, 20, 30, 40, 50, 60])
 
 ''' CHOROPLETHS TODO
 folium.features.GeoJson(choropleth_df, name='BVAP/VAP, style_function=style_function_choropleth, overlay=True')
@@ -172,6 +240,7 @@ folium.features.GeoJson(nonBH, show=True, control=False, \
                          name='nonBH districts', \
                          tooltip='Non-affected districts').add_to(m)
 
+# Add open street map as a raaster layer
 folium.raster_layers.TileLayer(control=False, min_zoom=8).add_to(m)
 
 folium.LayerControl(collapsed=False).add_to(m)
