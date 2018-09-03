@@ -68,16 +68,16 @@ bounds = [[36.482, -78.91], [38.22,-75.19]]
     
 start_path = 'C:/Users/conno/Documents/GitHub/VA-gerrymander/'
 
-maps = {'reform': {'name': 'Reform map',
+maps = {'reform': {'name': 'Reform',
                    'path': start_path + 'Maps/Reform map/Districts map ' + \
                            'bethune-hill final.shp',
                    'district_colname': 'DISTRICT',
                    'show': True},
-        'enacted': {'name': 'Enacted map',
+        'enacted': {'name': 'Enacted',
                     'path': start_path + 'Maps/Enacted map/enacted.shp',
                     'district_colname': 'ID',
                     'show': False},
-        'dems':    {'name': 'VA House Dems map',
+        'dems':    {'name': 'VA House Dems',
                     'path': start_path + 'Maps/House Dems map/HB7001.shp',
                     'district_colname': 'OBJECTID',
                     'show': False}
@@ -267,6 +267,12 @@ folium.features.GeoJson(choro_json,
                             tooltip=tooltip,
                             overlay=False).add_to(m)
 
+folium.features.GeoJson(choro_json,
+                            name='Perc BVAP Choro 2',
+                            #style_function=style_choro,
+                            style_function=style_choro,
+                            tooltip=tooltip,
+                            overlay=False).add_to(m)
 
 
 
