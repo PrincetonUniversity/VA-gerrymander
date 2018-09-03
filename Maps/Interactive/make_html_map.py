@@ -5,7 +5,7 @@ import shapely
 import fileinput
 import matplotlib.cm as cm
 import pandas as pd
-
+import json
 
 #%%
 
@@ -63,7 +63,6 @@ bounds = [[36.482, -78.91], [38.22,-75.19]]
     # path: Path after /Interactive
     # district_colname: name of column that refers to a given district
     # show: ???
-    
     
 # BH_Tracts_with_BVAP_VAP_intersection_final
     
@@ -138,32 +137,67 @@ make a loop just like the above that loops over all the choropleths you might wa
 # Set sitting style and style when cursor is on top. Inc
 
 # Create style functions for fill and outline maps
-style_function_fill = lambda x: {'fillColor': x['properties']['color'] if 'color'\
+style_fill = lambda x: {'fillColor': x['properties']['color'] if 'color'\
                                             in x['properties'] else '#fff',
                             'fillOpacity': 0.2 if x['properties']['status']==\
                                                 adjacent_label else 0.58,
                             'weight': 1.5 if x['properties']['status']==\
                                             adjacent_label else 3.2,
                             'color': '#888'}
-
-# Create highlight functions for fill and highlight maps
-highlight_function_fill = lambda x: {'fillColor': x['properties']['color'] if \
-                                'color' in x['properties'] else '#fff',
-                                'fillOpacity': 0.7,
-                                'weight': 1.5,
-                                'color': '#888'}
                             
-style_function_out = lambda x: {'fillColor': x['properties']['color'] \
+style_out = lambda x: {'fillColor': x['properties']['color'] \
                                 if 'color' in x['properties'] else '#fff',
                             'color': outline_col,
                             'fillOpacity': 0,
                             'weight': 3}
 
-# style when mousing over
-highlight_function_out = lambda x: {'fillColor': '#adadad',
+# Create highlight functions for fill and highlight maps
+highlight_fill = lambda x: {'fillColor': x['properties']['color'] if \
+                                'color' in x['properties'] else '#fff',
+                                'fillOpacity': 0.7,
+                                'weight': 1.5,
+                                'color': '#888'}
+                            
+highlight_out = lambda x: {'fillColor': '#adadad',
                                 'fillOpacity': 0.4,
                                 'weight': 5,
                                 'color': outline_col}
+
+# style for choropaths
+ch_colors = ['#000004', '#33095e', '#781c6d', '#bb3754', '#ed6925', \
+             '#fcb519', '#fcffa4']
+ch_bounds = [0.0, 0.25, 0.4, 0.5, 0.6, 0.75, 0.9]
+
+style_choro = lambda x: {'fillColor': ch_colors[0] if x['properties']['Perc_BVAP'] >= ch_bounds[0] and x['properties']['Perc_BVAP'] <= ch_bounds[1] \
+                         else ch_colors[1] if x['properties']['Perc_BVAP'] >= ch_bounds[1] and x['properties']['Perc_BVAP'] <= ch_bounds[2] \
+                         else ch_colors[2] if x['properties']['Perc_BVAP'] >= ch_bounds[2] and x['properties']['Perc_BVAP'] <= ch_bounds[3] \
+                         else ch_colors[3] if x['properties']['Perc_BVAP'] >= ch_bounds[3] and x['properties']['Perc_BVAP'] <= ch_bounds[4] \
+                         else ch_colors[4] if x['properties']['Perc_BVAP'] >= ch_bounds[4] and x['properties']['Perc_BVAP'] <= ch_bounds[5] \
+                         else ch_colors[5] if x['properties']['Perc_BVAP'] >= ch_bounds[5] and x['properties']['Perc_BVAP'] <= ch_bounds[6] \
+                         else ch_colors[6],
+                         'fillOpacity': 1,
+                         'weight': 1,
+                         'color': ch_colors[0] if x['properties']['Perc_BVAP'] >= ch_bounds[0] and x['properties']['Perc_BVAP'] <= ch_bounds[1] \
+                         else ch_colors[1] if x['properties']['Perc_BVAP'] >= ch_bounds[1] and x['properties']['Perc_BVAP'] <= ch_bounds[2] \
+                         else ch_colors[2] if x['properties']['Perc_BVAP'] >= ch_bounds[2] and x['properties']['Perc_BVAP'] <= ch_bounds[3] \
+                         else ch_colors[3] if x['properties']['Perc_BVAP'] >= ch_bounds[3] and x['properties']['Perc_BVAP'] <= ch_bounds[4] \
+                         else ch_colors[4] if x['properties']['Perc_BVAP'] >= ch_bounds[4] and x['properties']['Perc_BVAP'] <= ch_bounds[5] \
+                         else ch_colors[5] if x['properties']['Perc_BVAP'] >= ch_bounds[5] and x['properties']['Perc_BVAP'] <= ch_bounds[6] \
+                         else ch_colors[6]}
+
+# =============================================================================
+# style_choro = lambda x, y: {'fillColor': ch_colors[0] if x[y] >= ch_bounds[0] and x[y] <= ch_bounds[1] 
+#                          else ch_colors[1] if x[y] >= ch_bounds[1] and x[y] <= ch_bounds[2] 
+#                          else ch_colors[2] if x[y] >= ch_bounds[2] and x[y] <= ch_bounds[3] 
+#                          else ch_colors[3] if x[y] >= ch_bounds[3] and x[y] <= ch_bounds[4] 
+#                          else ch_colors[4] if x[y] >= ch_bounds[4] and x[y] <= ch_bounds[5] 
+#                          else ch_colors[5] if x[y] >= ch_bounds[5] and x[y] <= ch_bounds[6] 
+#                          else ch_colors[6],
+#                          'fillOpacity': 1,
+#                          'weight': 0.2,
+#                          'color': '#888'}
+# 
+# =============================================================================
 
 ''' CHOROPLETHS TODO
 use matplotlib's colormap functions to make the inferno_map_color() function to convert a proportion to a hex color from inferno.
@@ -199,11 +233,11 @@ for mapname in maps:
                                                       'Status', 'District'])
     folium.features.GeoJson(maps[mapname]['df'],
                             name=maps[mapname]['name'] + ' Fill',
-                            style_function=style_function_fill,
-                            highlight_function=highlight_function_fill,
+                            style_function=style_fill,
+                            highlight_function=highlight_fill,
                             show=maps[mapname]['show'],
                             tooltip=tooltip,
-                            overlay=False).add_to(m)
+                            overlay=True).add_to(m)
 
 # Set up maps with outline
 for mapname in maps:
@@ -213,17 +247,35 @@ for mapname in maps:
                                                       'Status', 'District'])
     folium.features.GeoJson(maps[mapname]['df'],
                             name=maps[mapname]['name'] + ' Outline',
-                            style_function=style_function_out,
-                            highlight_function=highlight_function_out,
+                            style_function=style_out,
+                            highlight_function=highlight_out,
                             show=maps[mapname]['show'],
-                            tooltip=tooltip,
-                            overlay=False).add_to(m)
+                            overlay=True).add_to(m)
 
 # Load Choropleth Dataframe
 choro_path = "G:/Team Drives/princeton_gerrymandering_project/mapping/VA/Bethune Hill/BH Choro SHP/BH_Choro.json"
+#choro_json = gpd.read_file(choro_path)
+with open(choro_path) as f:
+    choro_json = json.load(f)
 
-m.choropleth(geo_data=choro_path)#, key_on='feature.proprties.Pop/Area', 
-             #fill_color='PuBu', threshold_scale=[0, 20, 30, 40, 50, 60])
+tooltip = folium.features.GeoJsonTooltip(['Perc_BVAP'],aliases=['BVAP / VAP'])
+
+folium.features.GeoJson(choro_json,
+                            name='Perc BVAP Choro',
+                            #style_function=style_choro,
+                            style_function=style_choro,
+                            tooltip=tooltip,
+                            overlay=False).add_to(m)
+
+
+
+
+# =============================================================================
+# m.choropleth(geo_data=choro_path, key_on='feature.proprties.Perc_BVAP',\
+#              legend_name='legend',\
+#              name='choropleth')#,\
+#              #threshold_scale=[0, 0.4, 0.5, 0.6, 0.75])
+# =============================================================================
 
 ''' CHOROPLETHS TODO
 folium.features.GeoJson(choropleth_df, name='BVAP/VAP, style_function=style_function_choropleth, overlay=True')
@@ -255,6 +307,9 @@ info_box = '''
     '''
     
 m.get_root().html.add_child(folium.Element(info_box))
+
+test_box = '''
+    <div id="quick-book">'''
 
 folium.map.FitBounds(bounds).add_to(m)
 
