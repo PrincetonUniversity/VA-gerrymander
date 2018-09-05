@@ -57,7 +57,7 @@ bounds = [[36.482, -78.91], [38.22,-75.19]]
 
 start_path = 'C:/Users/conno/Documents/GitHub/VA-gerrymander/'
 
-maps = {'reform': {'name': 'Reform',
+maps = {'reform': {'name': 'PGP Reform',
                    'path': start_path + 'Maps/Reform map/Districts map ' + \
                            'bethune-hill final.shp',
                    'district_colname': 'DISTRICT',
