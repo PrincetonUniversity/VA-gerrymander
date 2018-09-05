@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id="Overlap Note" style="position: fixed; bottom: 500px; right: 12px; border: 0px; z-index: 10000; font-size: 13px; border-radius: 5px; background-color: #fff; padding: 8px; opacity: 1; width: 160px; max-width: 45em; overflow: auto; white-space: nowrap">
+	<font size="2">Note: Due to Leaflet.js, after selecting a basemap (radio button), an overlay map must be reselected to be placed on top of basemap</font><br>
+</div>
+
+
+<div id="Legend Container">
+<div id="Overlap Note" style="position: fixed; bottom: 500px; right: 12px; border: 0px; z-index: 10000; font-size: 13px; border-radius: 5px; background-color: #fff; padding: 8px; opacity: 1; width: 160px; max-width: 45em; overflow: auto; white-space: nowrap">
+	<font size="2">Note: Due to Leaflet.js, after selecting a basemap (radio button), an overlay map must be reselected to be placed on top of basemap</font><br>
+</div>
+<div id="Legend Selector" style="position: fixed; bottom: 240px; right: 12px; border: 0px; z-index: 10000; font-size: 13px; border-radius: 5px; background-color: #fff; padding: 8px; opacity: 1; width: 160px; max-width: 45em; overflow: auto; white-space: nowrap">
+	<font size="3">Select Legend Type</font><br>
+	<input type="radio" name="rd1" onchange="showNone()" checked="checked">OpenStreetMap<br>
+	<input type="radio" name="rd1" onchange="showPOP()">POP / square mi<br>
+	<input type="radio" name="rd1" onchange="showVAP()">VAP / square mi<br>
+	<input type="radio" name="rd1" onchange="showBVAP()">BVAP / square mi<br>
+	<input type="radio" name="rd1" onchange="showPropBVAP()">Proportion BVAP<br>
+</div>
+
+
+<div id="Legend Proportion BVAP" style="position: fixed; bottom: 20px; right: 12px; border: 0px; z-index: 1000; font-size: 13px; border-radius: 5px; background-color: #fff; padding: 8px; box-shadow: 0px 2px 4px #888; opacity: 1; width: 160px; max-width: 45em; overflow: auto; white-space: nowrap">
+	     <style>
+	/* basic positioning */
+	
+	.legend {
+	  list-style: none;
+	  padding-left: 0;
+	}
+	
+	.legend li {
+	  float: left;
+	  margin-right: 2px;
+	}
+	
+	.legend span {
+	  border: 1px solid #ccc;
+	  float: left;
+	  width: 12px;
+	  height: 12px;
+	  margin: 2px;
+	}
+	
+	/* your colors */
+	
+	.legend .choro1 {
+	  background-color: #000004;
+	}
+	
+	.legend .choro2 {
+	  background-color: #33095e;
+	}
+	
+	.legend .choro3 {
+	  background-color: #781c6d;
+	}
+	
+	.legend .choro4 {
+	  background-color: #bb3754;
+	}
+	
+	.legend .choro5 {
+	  background-color: #ed6925;
+	}
+	
+	.legend .choro6 {
+	  background-color: #fcb519;
+	}
+	
+	.legend .choro7 {
+	  background-color: #fcffa4;
+	}
+	
+	</style>
+	
+	<font size="5">Legend</font><br>
+	<font size="3" id="Legend Title">Proportion BVAP</font><br>
+	<ul class="legend">
+	  <li><span class="choro1"></span> 0.00 - 0.25</li><br>
+	  <li><span class="choro2"></span> 0.25 - 0.40</li><br>
+	  <li><span class="choro3"></span> 0.40 - 0.50</li><br>
+	  <li><span class="choro4"></span> 0.50 - 0.60</li><br>
+	  <li><span class="choro5"></span> 0.60 - 0.75</li><br>
+	  <li><span class="choro6"></span> 0.75 - 0.90</li><br>
+	  <li><span class="choro7"></span> 0.90 - 1.00</li><br>
+	</ul>
+	</div>
+
+<div id="Legend POP" style="position: fixed; bottom: 20px; right: 12px; border: 0px; z-index: 1000; font-size: 13px; border-radius: 5px; background-color: #fff; padding: 8px; box-shadow: 0px 2px 4px #888; opacity: 1; width: 160px; max-width: 45em; overflow: auto; white-space: nowrap">
+	     <style>
+	/* basic positioning */
+	
+	.legend {
+	  list-style: none;
+	  padding-left: 0;
+	}
+	
+	.legend li {
+	  float: left;
+	  margin-right: 2px;
+	}
+	
+	.legend span {
+	  border: 1px solid #ccc;
+	  float: left;
+	  width: 12px;
+	  height: 12px;
+	  margin: 2px;
+	}
+	
+	/* your colors */
+	
+	.legend .choro1 {
+	  background-color: #000004;
+	}
+	
+	.legend .choro2 {
+	  background-color: #33095e;
+	}
+	
+	.legend .choro3 {
+	  background-color: #781c6d;
+	}
+	
+	.legend .choro4 {
+	  background-color: #bb3754;
+	}
+	
+	.legend .choro5 {
+	  background-color: #ed6925;
+	}
+	
+	.legend .choro6 {
+	  background-color: #fcb519;
+	}
+	
+	.legend .choro7 {
+	  background-color: #fcffa4;
+	}
+	
+	</style>
+	
+	<font size="5">Legend</font><br>
+	<font size="3" id="Legend Title">POP / square mi</font><br>
+	<ul class="legend">
+	  <li><span class="choro1"></span> 0 - 500</li><br>
+	  <li><span class="choro2"></span> 500 - 1000</li><br>
+	  <li><span class="choro3"></span> 1000 - 2000</li><br>
+	  <li><span class="choro4"></span> 2000 - 3000</li><br>
+	  <li><span class="choro5"></span> 3000 - 5000</li><br>
+	  <li><span class="choro6"></span> 5000 - 10000</li><br>
+	  <li><span class="choro7"></span> 10000 - 50000</li><br>
+	</ul>
+	</div>
+
+<div id="Legend BVAP" style="position: fixed; bottom: 20px; right: 12px; border: 0px; z-index: 1000; font-size: 13px; border-radius: 5px; background-color: #fff; padding: 8px; box-shadow: 0px 2px 4px #888; opacity: 1; width: 160px; max-width: 45em; overflow: auto; white-space: nowrap">
+	     <style>
+	/* basic positioning */
+	
+	.legend {
+	  list-style: none;
+	  padding-left: 0;
+	}
+	
+	.legend li {
+	  float: left;
+	  margin-right: 2px;
+	}
+	
+	.legend span {
+	  border: 1px solid #ccc;
+	  float: left;
+	  width: 12px;
+	  height: 12px;
+	  margin: 2px;
+	}
+	
+	/* your colors */
+	
+	.legend .choro1 {
+	  background-color: #000004;
+	}
+	
+	.legend .choro2 {
+	  background-color: #33095e;
+	}
+	
+	.legend .choro3 {
+	  background-color: #781c6d;
+	}
+	
+	.legend .choro4 {
+	  background-color: #bb3754;
+	}
+	
+	.legend .choro5 {
+	  background-color: #ed6925;
+	}
+	
+	.legend .choro6 {
+	  background-color: #fcb519;
+	}
+	
+	.legend .choro7 {
+	  background-color: #fcffa4;
+	}
+	
+	</style>
+	
+	<font size="5">Legend</font><br>
+	<font size="3" id="Legend Title">BVAP / square mi</font><br>
+	<ul class="legend">
+	  <li><span class="choro1"></span> 0 - 200</li><br>
+	  <li><span class="choro2"></span> 200 - 500</li><br>
+	  <li><span class="choro3"></span> 500 - 1000</li><br>
+	  <li><span class="choro4"></span> 1000 - 1500</li><br>
+	  <li><span class="choro5"></span> 1500 - 2500</li><br>
+	  <li><span class="choro6"></span> 2500 - 5000</li><br>
+	  <li><span class="choro7"></span> 5000 - 15000</li><br>
+	</ul>
+	</div>
+
+<div id="Legend VAP" style="position: fixed; bottom: 20px; right: 12px; border: 0px; z-index: 1000; font-size: 13px; border-radius: 5px; background-color: #fff; padding: 8px; box-shadow: 0px 2px 4px #888; opacity: 1; width: 160px; max-width: 45em; overflow: auto; white-space: nowrap">
+	     <style>
+	/* basic positioning */
+	
+	.legend {
+	  list-style: none;
+	  padding-left: 0;
+	}
+	
+	.legend li {
+	  float: left;
+	  margin-right: 2px;
+	}
+	
+	.legend span {
+	  border: 1px solid #ccc;
+	  float: left;
+	  width: 12px;
+	  height: 12px;
+	  margin: 2px;
+	}
+	
+	/* your colors */
+	
+	.legend .choro1 {
+	  background-color: #000004;
+	}
+	
+	.legend .choro2 {
+	  background-color: #33095e;
+	}
+	
+	.legend .choro3 {
+	  background-color: #781c6d;
+	}
+	
+	.legend .choro4 {
+	  background-color: #bb3754;
+	}
+	
+	.legend .choro5 {
+	  background-color: #ed6925;
+	}
+	
+	.legend .choro6 {
+	  background-color: #fcb519;
+	}
+	
+	.legend .choro7 {
+	  background-color: #fcffa4;
+	}
+	
+	</style>
+	
+	<font size="5">Legend</font><br>
+	<font size="3" id="Legend Title">VAP / square mi</font><br>
+	<ul class="legend">
+	  <li><span class="choro1"></span> 0 - 500</li><br>
+	  <li><span class="choro2"></span> 500 - 1000</li><br>
+	  <li><span class="choro3"></span> 1000 - 2000</li><br>
+	  <li><span class="choro4"></span> 2000 - 3000</li><br>
+	  <li><span class="choro5"></span> 3000 - 5000</li><br>
+	  <li><span class="choro6"></span> 5000 - 10000</li><br>
+	  <li><span class="choro7"></span> 10000 - 50000</li><br>
+	</ul>
+	</div>
+
+<div id="Legend None" style="position: fixed; bottom: 20px; right: 12px; border: 0px; z-index: 9999; font-size: 13px; border-radius: 5px; background-color: #fff; padding: 8px; box-shadow: 0px 2px 4px #888; opacity: 1; width: 160px; max-width: 45em; overflow: auto; white-space: nowrap">
+	     <style>
+	/* basic positioning */
+	
+	.legend {
+	  list-style: none;
+	  padding-left: 0;
+	}
+	
+	.legend li {
+	  float: left;
+	  margin-right: 2px;
+	}
+	
+	.legend span {
+	  border: 1px solid #ccc;
+	  float: left;
+	  width: 12px;
+	  height: 12px;
+	  margin: 2px;
+	}
+	
+	/* your colors */
+	
+	.legend .choro1 {
+	  background-color: #000004;
+	}
+	
+	.legend .choro2 {
+	  background-color: #33095e;
+	}
+	
+	.legend .choro3 {
+	  background-color: #781c6d;
+	}
+	
+	.legend .choro4 {
+	  background-color: #bb3754;
+	}
+	
+	.legend .choro5 {
+	  background-color: #ed6925;
+	}
+	
+	.legend .choro6 {
+	  background-color: #fcb519;
+	}
+	
+	.legend .choro7 {
+	  background-color: #fcffa4;
+	}
+	
+	</style>
+	
+	<font size="5">Legend</font><br>
+	<font size="3" id="Legend Title">None</font><br>
+	<ul class="legend">
+	  <li><span class="choro1"></span> -------------------</li><br>
+	  <li><span class="choro2"></span> -------------------</li><br>
+	  <li><span class="choro3"></span> -------------------</li><br>
+	  <li><span class="choro4"></span> -------------------</li><br>
+	  <li><span class="choro5"></span> -------------------</li><br>
+	  <li><span class="choro6"></span> -------------------</li><br>
+	  <li><span class="choro7"></span> -------------------</li><br>
+	</ul>
+	</div>
+
+</div>
+
+<script>
+
+
+function showPropBVAP() {
+    var container = document.getElementById("Legend Container");
+    children = container.children;
+    
+    for (var i = 1; i < children.length; i++) {
+      child = children[i]
+      child.style.zIndex = "1000"
+    }
+    document.getElementById("Legend Proportion BVAP").style.zIndex = "9999";
+}
+
+function showPOP() {
+    var container = document.getElementById("Legend Container");
+    children = container.children;
+    
+    for (var i = 1; i < children.length; i++) {
+      child = children[i]
+      child.style.zIndex = "1"
+    }
+    document.getElementById("Legend POP").style.zIndex = "9999";
+}
+
+function showVAP() {
+    var container = document.getElementById("Legend Container");
+    children = container.children;
+    
+    for (var i = 1; i < children.length; i++) {
+      child = children[i]
+      child.style.zIndex = "1"
+    }
+    document.getElementById("Legend VAP").style.zIndex = "9999";
+}
+
+function showBVAP() {
+    var container = document.getElementById("Legend Container");
+    children = container.children;
+    
+    for (var i = 1; i < children.length; i++) {
+      child = children[i]
+      child.style.zIndex = "1"
+    }
+    document.getElementById("Legend BVAP").style.zIndex = "9999";
+}
+
+function showNone() {
+    var container = document.getElementById("Legend Container");
+    children = container.children;
+    
+    for (var i = 1; i < children.length; i++) {
+      child = children[i]
+      child.style.zIndex = "1"
+    }
+    document.getElementById("Legend None").style.zIndex = "9999";
+}
+
+
+
+ </script>
+
+</body>
+</html>

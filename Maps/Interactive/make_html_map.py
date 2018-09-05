@@ -25,8 +25,6 @@ colors = cmap(np.linspace(0,1,33))
 np.random.seed(105)
 np.random.shuffle(colors)
 
-
-
 # identify relevant districts
 affected = [63, 69, 70, 71, 74, 77, 80, 89, 90, 92, 95]
 adjacent= [27, 55, 61, 62, 64, 66, 68, 72, 73, 75, 76, 78, 79, 81, 83, 85, \
@@ -57,15 +55,6 @@ color_df = pd.DataFrame.from_dict(colordict, orient='index')
 # map boundaries, SW and NE points
 bounds = [[36.482, -78.91], [38.22,-75.19]]
 
-# Dictionary of dictionary containing information about every option on the
-# interactive map
-    # name: name of map in selection map
-    # path: Path after /Interactive
-    # district_colname: name of column that refers to a given district
-    # show: ???
-    
-# BH_Tracts_with_BVAP_VAP_intersection_final
-    
 start_path = 'C:/Users/conno/Documents/GitHub/VA-gerrymander/'
 
 maps = {'reform': {'name': 'Reform',
@@ -82,23 +71,6 @@ maps = {'reform': {'name': 'Reform',
                     'district_colname': 'OBJECTID',
                     'show': False}
         }
-
-# =============================================================================
-# tract_path = ''
-# chloro_maps = {'VAP': {'name': 'VAP per sq. mi',
-#                        'path': tract_path,
-#                        'district_colname'},
-#                'BVAP': {'BVAP per sq. mi'},
-#                'prop': {'BVAP / VAP'},
-#         }
-# 
-# =============================================================================
-
-''' CHOROPLETHS TODO
-you'll need shapefiles for the choropleths with the value of interest in a named column
-make dict of choropleth shapefiles like the above
-replace the district_colname key with 'bvap_prop', and the value indicates the column of the shapefile
-'''
 
 common_colname = 'district_no'
 
@@ -129,13 +101,7 @@ for mapname in maps:
     
     # Place dataframe into the maps dict
     maps[mapname]['df'] = df
-
-''' CHOROPLETHS TODO
-make a loop just like the above that loops over all the choropleths you might want
-'''
-
-# Set sitting style and style when cursor is on top. Inc
-
+    
 # Create style functions for fill and outline maps
 style_fill = lambda x: {'fillColor': x['properties']['color'] if 'color'\
                                             in x['properties'] else '#fff',
@@ -144,12 +110,6 @@ style_fill = lambda x: {'fillColor': x['properties']['color'] if 'color'\
                             'weight': 1.5 if x['properties']['status']==\
                                             adjacent_label else 3.2,
                             'color': '#888'}
-                            
-style_out = lambda x: {'fillColor': x['properties']['color'] \
-                                if 'color' in x['properties'] else '#fff',
-                            'color': outline_col,
-                            'fillOpacity': 0,
-                            'weight': 3}
 
 # Create highlight functions for fill and highlight maps
 highlight_fill = lambda x: {'fillColor': x['properties']['color'] if \
@@ -158,54 +118,105 @@ highlight_fill = lambda x: {'fillColor': x['properties']['color'] if \
                                 'weight': 1.5,
                                 'color': '#888'}
                             
-highlight_out = lambda x: {'fillColor': '#adadad',
-                                'fillOpacity': 0.4,
-                                'weight': 5,
-                                'color': outline_col}
 
-# style for choropaths
+#======================
+# style for choropleths
+#======================
+
 ch_colors = ['#000004', '#33095e', '#781c6d', '#bb3754', '#ed6925', \
              '#fcb519', '#fcffa4']
-ch_bounds = [0.0, 0.25, 0.4, 0.5, 0.6, 0.75, 0.9]
+             
+# POP
+ 
+pop_bnds = [0, 500, 1000, 2000, 3000, 5000, 10000]
 
-style_choro = lambda x: {'fillColor': ch_colors[0] if x['properties']['Perc_BVAP'] >= ch_bounds[0] and x['properties']['Perc_BVAP'] <= ch_bounds[1] \
-                         else ch_colors[1] if x['properties']['Perc_BVAP'] >= ch_bounds[1] and x['properties']['Perc_BVAP'] <= ch_bounds[2] \
-                         else ch_colors[2] if x['properties']['Perc_BVAP'] >= ch_bounds[2] and x['properties']['Perc_BVAP'] <= ch_bounds[3] \
-                         else ch_colors[3] if x['properties']['Perc_BVAP'] >= ch_bounds[3] and x['properties']['Perc_BVAP'] <= ch_bounds[4] \
-                         else ch_colors[4] if x['properties']['Perc_BVAP'] >= ch_bounds[4] and x['properties']['Perc_BVAP'] <= ch_bounds[5] \
-                         else ch_colors[5] if x['properties']['Perc_BVAP'] >= ch_bounds[5] and x['properties']['Perc_BVAP'] <= ch_bounds[6] \
+style_pop = lambda x: {'fillColor': ch_colors[0] if x['properties']['Pop_Dens'] >= pop_bnds[0] and x['properties']['Pop_Dens'] <= pop_bnds[1] 
+                         else ch_colors[1] if x['properties']['Pop_Dens'] >= pop_bnds[1] and x['properties']['Pop_Dens'] <= pop_bnds[2] 
+                         else ch_colors[2] if x['properties']['Pop_Dens'] >= pop_bnds[2] and x['properties']['Pop_Dens'] <= pop_bnds[3] 
+                         else ch_colors[3] if x['properties']['Pop_Dens'] >= pop_bnds[3] and x['properties']['Pop_Dens'] <= pop_bnds[4] 
+                         else ch_colors[4] if x['properties']['Pop_Dens'] >= pop_bnds[4] and x['properties']['Pop_Dens'] <= pop_bnds[5] 
+                         else ch_colors[5] if x['properties']['Pop_Dens'] >= pop_bnds[5] and x['properties']['Pop_Dens'] <= pop_bnds[6] 
                          else ch_colors[6],
                          'fillOpacity': 1,
                          'weight': 1,
-                         'color': ch_colors[0] if x['properties']['Perc_BVAP'] >= ch_bounds[0] and x['properties']['Perc_BVAP'] <= ch_bounds[1] \
-                         else ch_colors[1] if x['properties']['Perc_BVAP'] >= ch_bounds[1] and x['properties']['Perc_BVAP'] <= ch_bounds[2] \
-                         else ch_colors[2] if x['properties']['Perc_BVAP'] >= ch_bounds[2] and x['properties']['Perc_BVAP'] <= ch_bounds[3] \
-                         else ch_colors[3] if x['properties']['Perc_BVAP'] >= ch_bounds[3] and x['properties']['Perc_BVAP'] <= ch_bounds[4] \
-                         else ch_colors[4] if x['properties']['Perc_BVAP'] >= ch_bounds[4] and x['properties']['Perc_BVAP'] <= ch_bounds[5] \
-                         else ch_colors[5] if x['properties']['Perc_BVAP'] >= ch_bounds[5] and x['properties']['Perc_BVAP'] <= ch_bounds[6] \
+                         'color': ch_colors[0] if x['properties']['Pop_Dens'] >= pop_bnds[0] and x['properties']['Pop_Dens'] <= pop_bnds[1] 
+                         else ch_colors[1] if x['properties']['Pop_Dens'] >= pop_bnds[1] and x['properties']['Pop_Dens'] <= pop_bnds[2] 
+                         else ch_colors[2] if x['properties']['Pop_Dens'] >= pop_bnds[2] and x['properties']['Pop_Dens'] <= pop_bnds[3] 
+                         else ch_colors[3] if x['properties']['Pop_Dens'] >= pop_bnds[3] and x['properties']['Pop_Dens'] <= pop_bnds[4] 
+                         else ch_colors[4] if x['properties']['Pop_Dens'] >= pop_bnds[4] and x['properties']['Pop_Dens'] <= pop_bnds[5] 
+                         else ch_colors[5] if x['properties']['Pop_Dens'] >= pop_bnds[5] and x['properties']['Pop_Dens'] <= pop_bnds[6] 
+                         else ch_colors[6]}
+                                
+# VAP
+
+vap_bnds = [0, 500, 1000, 2000, 3000, 5000, 10000]
+
+style_vap = lambda x: {'fillColor': ch_colors[0] if x['properties']['VAP_Dens'] >= vap_bnds[0] and x['properties']['VAP_Dens'] <= vap_bnds[1] 
+                         else ch_colors[1] if x['properties']['VAP_Dens'] >= vap_bnds[1] and x['properties']['VAP_Dens'] <= vap_bnds[2] 
+                         else ch_colors[2] if x['properties']['VAP_Dens'] >= vap_bnds[2] and x['properties']['VAP_Dens'] <= vap_bnds[3] 
+                         else ch_colors[3] if x['properties']['VAP_Dens'] >= vap_bnds[3] and x['properties']['VAP_Dens'] <= vap_bnds[4] 
+                         else ch_colors[4] if x['properties']['VAP_Dens'] >= vap_bnds[4] and x['properties']['VAP_Dens'] <= vap_bnds[5] 
+                         else ch_colors[5] if x['properties']['VAP_Dens'] >= vap_bnds[5] and x['properties']['VAP_Dens'] <= vap_bnds[6] 
+                         else ch_colors[6],
+                         'fillOpacity': 1,
+                         'weight': 1,
+                         'color': ch_colors[0] if x['properties']['VAP_Dens'] >= vap_bnds[0] and x['properties']['VAP_Dens'] <= vap_bnds[1] 
+                         else ch_colors[1] if x['properties']['VAP_Dens'] >= vap_bnds[1] and x['properties']['VAP_Dens'] <= vap_bnds[2] 
+                         else ch_colors[2] if x['properties']['VAP_Dens'] >= vap_bnds[2] and x['properties']['VAP_Dens'] <= vap_bnds[3] 
+                         else ch_colors[3] if x['properties']['VAP_Dens'] >= vap_bnds[3] and x['properties']['VAP_Dens'] <= vap_bnds[4] 
+                         else ch_colors[4] if x['properties']['VAP_Dens'] >= vap_bnds[4] and x['properties']['VAP_Dens'] <= vap_bnds[5] 
+                         else ch_colors[5] if x['properties']['VAP_Dens'] >= vap_bnds[5] and x['properties']['VAP_Dens'] <= vap_bnds[6] 
+                         else ch_colors[6]}
+                                
+# BVAP
+
+bvap_bnds = [0, 200, 500, 1000, 1500, 2500, 5000]
+
+style_bvap = lambda x: {'fillColor': ch_colors[0] if x['properties']['BVAP_Dens'] >= bvap_bnds[0] and x['properties']['BVAP_Dens'] <= bvap_bnds[1] 
+                         else ch_colors[1] if x['properties']['BVAP_Dens'] >= bvap_bnds[1] and x['properties']['BVAP_Dens'] <= bvap_bnds[2] 
+                         else ch_colors[2] if x['properties']['BVAP_Dens'] >= bvap_bnds[2] and x['properties']['BVAP_Dens'] <= bvap_bnds[3] 
+                         else ch_colors[3] if x['properties']['BVAP_Dens'] >= bvap_bnds[3] and x['properties']['BVAP_Dens'] <= bvap_bnds[4] 
+                         else ch_colors[4] if x['properties']['BVAP_Dens'] >= bvap_bnds[4] and x['properties']['BVAP_Dens'] <= bvap_bnds[5] 
+                         else ch_colors[5] if x['properties']['BVAP_Dens'] >= bvap_bnds[5] and x['properties']['BVAP_Dens'] <= bvap_bnds[6] 
+                         else ch_colors[6],
+                         'fillOpacity': 1,
+                         'weight': 1,
+                         'color': ch_colors[0] if x['properties']['BVAP_Dens'] >= bvap_bnds[0] and x['properties']['BVAP_Dens'] <= bvap_bnds[1] 
+                         else ch_colors[1] if x['properties']['BVAP_Dens'] >= bvap_bnds[1] and x['properties']['BVAP_Dens'] <= bvap_bnds[2] 
+                         else ch_colors[2] if x['properties']['BVAP_Dens'] >= bvap_bnds[2] and x['properties']['BVAP_Dens'] <= bvap_bnds[3] 
+                         else ch_colors[3] if x['properties']['BVAP_Dens'] >= bvap_bnds[3] and x['properties']['BVAP_Dens'] <= bvap_bnds[4] 
+                         else ch_colors[4] if x['properties']['BVAP_Dens'] >= bvap_bnds[4] and x['properties']['BVAP_Dens'] <= bvap_bnds[5] 
+                         else ch_colors[5] if x['properties']['BVAP_Dens'] >= bvap_bnds[5] and x['properties']['BVAP_Dens'] <= bvap_bnds[6] 
+                         else ch_colors[6]}
+                                
+
+# Proportion BVAP
+
+prop_bnds = [0.0, 0.25, 0.4, 0.5, 0.6, 0.75, 0.9]
+
+style_prop = lambda x: {'fillColor': ch_colors[0] if x['properties']['Perc_BVAP'] >= prop_bnds[0] and x['properties']['Perc_BVAP'] <= prop_bnds[1] \
+                         else ch_colors[1] if x['properties']['Perc_BVAP'] >= prop_bnds[1] and x['properties']['Perc_BVAP'] <= prop_bnds[2] \
+                         else ch_colors[2] if x['properties']['Perc_BVAP'] >= prop_bnds[2] and x['properties']['Perc_BVAP'] <= prop_bnds[3] \
+                         else ch_colors[3] if x['properties']['Perc_BVAP'] >= prop_bnds[3] and x['properties']['Perc_BVAP'] <= prop_bnds[4] \
+                         else ch_colors[4] if x['properties']['Perc_BVAP'] >= prop_bnds[4] and x['properties']['Perc_BVAP'] <= prop_bnds[5] \
+                         else ch_colors[5] if x['properties']['Perc_BVAP'] >= prop_bnds[5] and x['properties']['Perc_BVAP'] <= prop_bnds[6] \
+                         else ch_colors[6],
+                         'fillOpacity': 1,
+                         'weight': 1,
+                         'color': ch_colors[0] if x['properties']['Perc_BVAP'] >= prop_bnds[0] and x['properties']['Perc_BVAP'] <= prop_bnds[1] \
+                         else ch_colors[1] if x['properties']['Perc_BVAP'] >= prop_bnds[1] and x['properties']['Perc_BVAP'] <= prop_bnds[2] \
+                         else ch_colors[2] if x['properties']['Perc_BVAP'] >= prop_bnds[2] and x['properties']['Perc_BVAP'] <= prop_bnds[3] \
+                         else ch_colors[3] if x['properties']['Perc_BVAP'] >= prop_bnds[3] and x['properties']['Perc_BVAP'] <= prop_bnds[4] \
+                         else ch_colors[4] if x['properties']['Perc_BVAP'] >= prop_bnds[4] and x['properties']['Perc_BVAP'] <= prop_bnds[5] \
+                         else ch_colors[5] if x['properties']['Perc_BVAP'] >= prop_bnds[5] and x['properties']['Perc_BVAP'] <= prop_bnds[6] \
                          else ch_colors[6]}
 
-# =============================================================================
-# style_choro = lambda x, y: {'fillColor': ch_colors[0] if x[y] >= ch_bounds[0] and x[y] <= ch_bounds[1] 
-#                          else ch_colors[1] if x[y] >= ch_bounds[1] and x[y] <= ch_bounds[2] 
-#                          else ch_colors[2] if x[y] >= ch_bounds[2] and x[y] <= ch_bounds[3] 
-#                          else ch_colors[3] if x[y] >= ch_bounds[3] and x[y] <= ch_bounds[4] 
-#                          else ch_colors[4] if x[y] >= ch_bounds[4] and x[y] <= ch_bounds[5] 
-#                          else ch_colors[5] if x[y] >= ch_bounds[5] and x[y] <= ch_bounds[6] 
-#                          else ch_colors[6],
-#                          'fillOpacity': 1,
-#                          'weight': 0.2,
-#                          'color': '#888'}
-# 
-# =============================================================================
-
-''' CHOROPLETHS TODO
-use matplotlib's colormap functions to make the inferno_map_color() function to convert a proportion to a hex color from inferno.
-you can use the rgb_to_hex() function already defined at the top
-
-then make a style_function_choropleth like this, except with fillcolor being something like:
-'fillColor': inferno_map_color(x['properties']['bvap_prop'])
-'''
+# None
+style_none = lambda x: {'fillColor': ch_colors[0],
+                         'fillOpacity': 0,
+                         'weight': 1,
+                         'color': ch_colors[0],
+                         'opacity': 0}
 
 ###################
 # make folium map #
@@ -216,15 +227,7 @@ m = folium.Map(tiles=None, control_scale=True, min_lat=bounds[0][0], \
                max_lat=bounds[1][0], min_lon=bounds[0][1], \
                max_lon=bounds[1][1], max_bounds=True)
 
-# Temporary delete to see changes
-maps2 = maps.copy()
-maps3 = maps.copy()
-del maps2['dems']
-del maps3['reform']
-del maps3['enacted']
 
-
-    
 # Set up  maps with fill
 for mapname in maps:
     tooltip = folium.features.GeoJsonTooltip(['Empty', 'status', \
@@ -232,61 +235,62 @@ for mapname in maps:
                                              aliases=[maps[mapname]['name'],\
                                                       'Status', 'District'])
     folium.features.GeoJson(maps[mapname]['df'],
-                            name=maps[mapname]['name'] + ' Fill',
+                            name=maps[mapname]['name'],
                             style_function=style_fill,
                             highlight_function=highlight_fill,
                             show=maps[mapname]['show'],
                             tooltip=tooltip,
                             overlay=True).add_to(m)
 
-# Set up maps with outline
-for mapname in maps:
-    tooltip = folium.features.GeoJsonTooltip(['Empty', 'status', \
-                                              common_colname],\
-                                             aliases=[maps[mapname]['name'],\
-                                                      'Status', 'District'])
-    folium.features.GeoJson(maps[mapname]['df'],
-                            name=maps[mapname]['name'] + ' Outline',
-                            style_function=style_out,
-                            highlight_function=highlight_out,
-                            show=maps[mapname]['show'],
-                            overlay=True).add_to(m)
-
 # Load Choropleth Dataframe
 choro_path = "G:/Team Drives/princeton_gerrymandering_project/mapping/VA/Bethune Hill/BH Choro SHP/BH_Choro.json"
 choro_json = gpd.read_file(choro_path)
-choro_json2 = gpd.read_file(choro_path)
+choro_json['Perc_BVAP'] = choro_json['Perc_BVAP'].round(3)
+choro_json['Pop_Dens'] = choro_json['Pop_Dens'].round()
+choro_json['VAP_Dens'] = choro_json['VAP_Dens'].round()
+choro_json['BVAP_Dens'] = choro_json['BVAP_Dens'].round()
 
+# create tooltips
+tooltip_pop = folium.features.GeoJsonTooltip(['Pop_Dens'], aliases=['POP / square mi'])
+tooltip_vap = folium.features.GeoJsonTooltip(['VAP_Dens'], aliases=['VAP / square mi'])
+tooltip_bvap = folium.features.GeoJsonTooltip(['BVAP_Dens'], aliases=['BVAP / square mi'])
+tooltip_prop = folium.features.GeoJsonTooltip(['Perc_BVAP'], aliases=['Proportion BVAP'])
 
-tooltip = folium.features.GeoJsonTooltip(['Perc_BVAP'],aliases=['BVAP / VAP'])
+# create choropleth names
+pop_name = 'POP / sq. mi'
+vap_name = 'VAP / sq. mi'
+bvap_name = 'BVAP / sq. mi'
+prop_name = 'Prop BVAP'
+none_name = 'OpenStreetMap'
 
-folium.features.GeoJson(choro_json,
-                            name='Perc BVAP Choro',
-                            style_function=style_choro,
-                            tooltip=tooltip,
-                            overlay=False).add_to(m)
+# ==========
+# # Add maps
+# ==========
 
-folium.features.GeoJson(choro_json2,
-                            name='Perc BVAP Choro 2',
-                            style_function=style_choro,
-                            #tooltip=tooltip,
-                            overlay=False).add_to(m)
+# None
+folium.features.GeoJson(choro_json, name=none_name,
+                        style_function=style_none,
+                        overlay=False).add_to(m)
 
+# POP
+folium.features.GeoJson(choro_json, name=pop_name,
+                        style_function=style_pop, tooltip=tooltip_pop,
+                        overlay=False).add_to(m)
 
-# =============================================================================
-# m.choropleth(geo_data=choro_path, key_on='feature.proprties.Perc_BVAP',\
-#              legend_name='legend',\
-#              name='choropleth')#,\
-#              #threshold_scale=[0, 0.4, 0.5, 0.6, 0.75])
-# =============================================================================
+# VAP
+folium.features.GeoJson(choro_json, name=vap_name,
+                        style_function=style_vap, tooltip=tooltip_vap,
+                        overlay=False).add_to(m)
 
-''' CHOROPLETHS TODO
-folium.features.GeoJson(choropleth_df, name='BVAP/VAP, style_function=style_function_choropleth, overlay=True')
-Not sure if this should go here or before the above loop where the other layers are added.
+# BVAP
+folium.features.GeoJson(choro_json, name=bvap_name,
+                        style_function=style_bvap, tooltip=tooltip_bvap,
+                        overlay=False).add_to(m)
 
-Then add a colorbar that is visible whenever this layer is visible. Not sure how to do that, figure it out!
-'''
-
+# Prop
+folium.features.GeoJson(choro_json, name=prop_name,
+                        style_function=style_prop, tooltip=tooltip_prop,
+                        overlay=False).add_to(m)
 
 # non-relevant VA districts
 folium.features.GeoJson(nonBH, show=True, control=False, \
@@ -309,9 +313,6 @@ info_box = '''
       </div>
     '''
     
-m.get_root().html.add_child(folium.Element(info_box))
-
-test_box = '''<div style="position: fixed; top: 100px; left: 100px; border: 0px; z-index: 9999; font-size: 13px; border-radius: 5px; background-color: #fff; padding: 8px; box-shadow: 0px 2px 4px #888; opacity: 0.85; width: calc(100% - 270px); max-width: 45em; overflow: auto; white-space: nowrap">'''
 m.get_root().html.add_child(folium.Element(info_box))
 
 
