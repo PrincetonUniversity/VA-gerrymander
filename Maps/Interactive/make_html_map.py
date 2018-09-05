@@ -254,26 +254,23 @@ for mapname in maps:
 
 # Load Choropleth Dataframe
 choro_path = "G:/Team Drives/princeton_gerrymandering_project/mapping/VA/Bethune Hill/BH Choro SHP/BH_Choro.json"
-#choro_json = gpd.read_file(choro_path)
-with open(choro_path) as f:
-    choro_json = json.load(f)
+choro_json = gpd.read_file(choro_path)
+choro_json2 = gpd.read_file(choro_path)
+
 
 tooltip = folium.features.GeoJsonTooltip(['Perc_BVAP'],aliases=['BVAP / VAP'])
 
 folium.features.GeoJson(choro_json,
                             name='Perc BVAP Choro',
-                            #style_function=style_choro,
                             style_function=style_choro,
                             tooltip=tooltip,
                             overlay=False).add_to(m)
 
-folium.features.GeoJson(choro_json,
+folium.features.GeoJson(choro_json2,
                             name='Perc BVAP Choro 2',
-                            #style_function=style_choro,
                             style_function=style_choro,
-                            tooltip=tooltip,
+                            #tooltip=tooltip,
                             overlay=False).add_to(m)
-
 
 
 # =============================================================================
@@ -314,8 +311,9 @@ info_box = '''
     
 m.get_root().html.add_child(folium.Element(info_box))
 
-test_box = '''
-    <div id="quick-book">'''
+test_box = '''<div style="position: fixed; top: 100px; left: 100px; border: 0px; z-index: 9999; font-size: 13px; border-radius: 5px; background-color: #fff; padding: 8px; box-shadow: 0px 2px 4px #888; opacity: 0.85; width: calc(100% - 270px); max-width: 45em; overflow: auto; white-space: nowrap">'''
+m.get_root().html.add_child(folium.Element(info_box))
+
 
 folium.map.FitBounds(bounds).add_to(m)
 
