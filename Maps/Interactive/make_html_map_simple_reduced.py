@@ -15,7 +15,8 @@ def rgb_to_hex(rgb):
     return '#%02X%02X%02X' % (f(rgb[0]), f(rgb[1]), f(rgb[2]))
 
 # Define outline color
-outline_col = '#42f4ee'
+#outline_col = '#42f4ee'
+outline_col = '#ffffff'
 
 # set the color map
 cmap = cm.get_cmap('gist_rainbow')
@@ -111,11 +112,11 @@ style_out = lambda x: {'fillColor': x['properties']['color'] \
                                 if 'color' in x['properties'] else '#fff',
                             'color': outline_col,
                             'fillOpacity': 0,
-                            'weight': 3}
+                            'weight': 1.5}
                             
 highlight_out = lambda x: {'fillColor': '#adadad',
                                 'fillOpacity': 0.4,
-                                'weight': 5,
+                                'weight': 3,
                                 'color': outline_col}
 
 #======================
@@ -309,6 +310,6 @@ m.get_root().header.add_child(folium.Element(
     ' initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />'
 ))
 
-filename = "C:/Users/conno/Documents/GitHub/VA-gerrymander/Maps/Interactive/map_comparison_simple_reduced.html"
+filename = "C:/Users/conno/Documents/GitHub/VA-gerrymander/Maps/Interactive/map_comparison.html"
 m.save(filename)
 
