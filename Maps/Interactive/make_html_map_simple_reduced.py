@@ -69,6 +69,10 @@ maps = {'reform': {'name': 'PGP Reform',
         'dems':    {'name': 'VA House Dems',
                     'path': start_path + 'Maps/House Dems map/HB7001.shp',
                     'district_colname': 'OBJECTID',
+                    'show': False},
+        'gop':    {'name': 'VA House GOP',
+                    'path': start_path + 'Maps/GOP map/HB7002_shapefile.shp',
+                    'district_colname': 'OBJECTID',
                     'show': False}
         }
 
