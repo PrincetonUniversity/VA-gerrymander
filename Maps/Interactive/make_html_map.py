@@ -46,21 +46,23 @@ color_df = pd.DataFrame.from_dict(colordict, orient='index')
 # map boundaries, SW and NE points
 bounds = [[36.55, -78.91], [38.5,-75]]
 
+start_path = 'C:/Users/conno/Documents/GitHub/VA-gerrymander/'
+
 # info on what maps to load
 maps = {'reform': {'name': 'PGP Reform map',
-                   'path': 'Maps/Reform map/Districts map bethune-hill final.shp',
+                   'path': start_path + 'Maps/Reform map/Districts map bethune-hill final.shp',
                    'district_colname': 'DISTRICT',
                    'show': True},
         'enacted': {'name': 'Enacted map',
-                    'path': 'Maps/Enacted map/enacted.shp',
+                    'path': start_path + 'Maps/Enacted map/enacted.shp',
                     'district_colname': 'ID',
                     'show': False},
         'dems':    {'name': 'VA House Dems map',
-                    'path': 'Maps/House Dems map/HB7001.shp',
+                    'path': start_path + 'Maps/House Dems map/HB7001.shp',
                     'district_colname': 'OBJECTID',
                     'show': False},
         'gop':     {'name': 'VA House GOP Map', 
-                    'path': 'Maps/GOP map/HB7002_shapefile.shp',
+                    'path': start_path + 'Maps/GOP map/HB7002_shapefile.shp',
                     'district_colname': 'OBJECTID',
                     'show': False}
         }
@@ -138,8 +140,8 @@ info_box = '''
      More info <a style="color: #e77500" href="https://github.com/PrincetonUniversity/VA-gerrymander">here</a>
       </div>
     '''
-m.save('Maps/interactive/map_comparison_no_infobox.html')    
+m.save(start_path + 'Maps/interactive/map_comparison_no_infobox.html')    
 m.get_root().html.add_child(folium.Element(info_box))
-m.save('Maps/interactive/map_comparison.html')    
+m.save(start_path + 'Maps/interactive/map_comparison.html')    
 
 
