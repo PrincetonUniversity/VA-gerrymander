@@ -204,7 +204,7 @@ for mapname in maps:
                             overlay=False).add_to(m)
     
 # Add open street map as a raaster layer
-folium.raster_layers.TileLayer(control=True, min_zoom=8, overlay=True, show=True).add_to(m)
+folium.raster_layers.TileLayer(control=False, min_zoom=8, overlay=True, show=True).add_to(m)
 
 folium.LayerControl(collapsed=False).add_to(m)
 
