@@ -7,7 +7,7 @@ import matplotlib.cm as cm
 import pandas as pd
 import json
 
-make_BVAP_choropleth = True
+make_BVAP_choropleth = False
 
 # Color conversion helper function
 def rgb_to_hex(rgb):
