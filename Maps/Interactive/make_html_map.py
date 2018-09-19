@@ -235,7 +235,7 @@ info_box = f'''
 </style>
 
 <div id="info" class="overlay_box">
-<b><span id="title">Accompanying maps for <a href="https://pilotonline.com/opinion/columnist/guest/article_7a44a308-abb4-11e8-bec1-0361d680b78f.html">Lawmakers should fix inequitable district lines</a>"</span><br>
+<b><span id="title">Accompanying maps for "<a href="https://pilotonline.com/opinion/columnist/guest/article_7a44a308-abb4-11e8-bec1-0361d680b78f.html">Lawmakers should fix inequitable district lines</a>"</span><br>
 <em>The Virginian-Pilot</em>, August 30, 2018<br></b>
 Ben Williams, William T. Adler, and Samuel S.-H. Wang of the <a href="http://gerrymander.princeton.edu/">Princeton Gerrymandering Project</a><br>
 Additional work by Connor Moffatt and Jacob Wachspress<br>
