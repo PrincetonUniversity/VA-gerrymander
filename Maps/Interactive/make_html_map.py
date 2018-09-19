@@ -224,7 +224,7 @@ info_box = f'''
 }}
 
 @media only screen and (max-width: 590px) {{
-    #info_box {{
+    #info {{
         display: none;
     }}
 }}
