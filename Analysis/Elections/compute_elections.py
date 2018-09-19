@@ -11,8 +11,7 @@ sns.set()
 
 unconstitutional_only = False
 
-
-maps = {'reform': {'name': 'Reform map',
+maps = {'reform': {'name': 'PGP Reform map',
                    'path': 'Maps/Reform map/Districts map bethune-hill final.shp',
                    'district_colname': 'DISTRICT',
                    'show': True},
@@ -22,6 +21,10 @@ maps = {'reform': {'name': 'Reform map',
                     'show': False},
         'dems':    {'name': 'VA House Dems map',
                     'path': 'Maps/House Dems map/HB7001.shp',
+                    'district_colname': 'OBJECTID',
+                    'show': False},
+        'gop':     {'name': 'VA House GOP Map', 
+                    'path': 'Maps/GOP map/HB7002_shapefile.shp',
                     'district_colname': 'OBJECTID',
                     'show': False}
         }
@@ -64,30 +67,54 @@ for mapname in maps:
 
     maps[mapname]['df'] = df
 
-elections = [['P_DEM_16_x', 'P_REP_16_x'],
-             ['P_HC_16_x', 'P_BS_16_x'],
-             ['G_DEM_17_x', 'G_REP_17_x'],
-             ['LG_DEM_17_', 'LG_REP_17_'],
-             ['AG_DEM_17_', 'AG_REP_17_']]
+pres16 = {'Clinton v. Trump (2016)': ['P_DEM_16_x', 'P_REP_16_x']}
+other_elections = {'Clinton v. Sanders (2016)': ['P_HC_16_x', 'P_BS_16_x'],
+             'Northam v. Gillespie (2017)': ['G_DEM_17_x', 'G_REP_17_x'],
+             'Fairfax v. Vogel (2017)': ['LG_DEM_17_', 'LG_REP_17_'],
+             'Herring v. Adams (2017)': ['AG_DEM_17_', 'AG_REP_17_']}
 
-fig, ax = plt.subplots(1, len(elections), figsize=(20,3))
+all_elex = {**pres_only, **other_elections}
+
 colors = {'reform': 'orange',
           'dems': 'blue',
-          'enacted': 'red'}
+          'enacted': 'violet',
+          'gop': 'red'}
 
-for i, election in enumerate(elections):
-    for mapname in maps:
-        # print(mapname)
-        df = maps[mapname]['df']
-        v = df[election[0]] / (df[election[0]] + df[election[1]])
-        ax[i].scatter(range(len(v)), sorted(v), label=mapname, s=9, color=colors[mapname])
-        ax[i].axhline(.5)
-        ax[i].set_title(f'{election[0]} v. {election[1]}')
-        ax[i].set_ylim([.35, 1])
-        
-ax[0].legend()
-ax[0].set_ylabel('Candidate 1 voteshare')
-ax[0].set_xlabel('ranked district')
-fig.savefig('Analysis/Elections/election_results.pdf', bbox_inches='tight')
+#%%
+figs = {'election_results': {'maps': [i for i in maps],
+                             'elections': all_elex},
+        'election_results_pres_only': {'maps': ['reform', 'dems', 'gop'],
+                                       'elections': pres_only}}
 
+for f in figs:
+    elections = figs[f]['elections']
+    n_elex = len(elections)
+    fig, ax = plt.subplots(1, n_elex, figsize=(n_elex*5, 3))
+
+    for i, election in enumerate(elections):
+        if n_elex==1:
+            axis=ax
+        else:
+            axis=ax[i]
+            
+        for mapname in figs[f]['maps']:
+            # print(mapname)
+            df = maps[mapname]['df']
+            v = df[elections[election][0]] / (df[elections[election][0]] + df[elections[election][1]])
+            axis.scatter(range(len(v)), sorted(v), label=mapname, s=15, color=colors[mapname], alpha=.7, linewidth=1.5, facecolor='none')
+            axis.axhline(.5)
+            axis.set_title(election)
+            axis.set_ylim([.3, 1])
+    
+    if n_elex==1:
+        axis.legend()
+        candidate = election.split(' ')[0]
+        axis.set_ylabel(f'{candidate} voteshare')
+        axis.set_xlabel(f'District, ranked by {candidate} voteshare')
+    else:
+        ax[0].legend()
+        ax[0].set_ylabel('Candidate 1 voteshare')
+        ax[0].set_xlabel('District, ranked by candidate 1 voteshare')
+    
+    fig.savefig(f'Analysis/Elections/{f}.pdf', bbox_inches='tight')
 
