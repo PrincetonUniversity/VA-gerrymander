@@ -1,11 +1,11 @@
 import sys
-sys.path.append('/home/hannah/PGG/VA-gerrymander/Analysis/Compactness')
+sys.path.append('C:/Users/mahrud/Desktop/PGG/VA/Analysis/Compactness')
 import continuous_measures as cm
 import geopandas as gpd
 import pandas as pd
 import tabulate
 
-start_path = '/home/hannah/PGG/VA-gerrymander/'
+start_path = 'C:/Users/mahrud/Desktop/PGG/VA/'
 
 maps = {'reform': {'name': 'PGP Reform map',
                    'path': start_path + 'Maps/Reform map/Districts map bethune-hill final.shp',
@@ -19,7 +19,7 @@ maps = {'reform': {'name': 'PGP Reform map',
                     'path': start_path + 'Maps/House Dems map/HB7001.shp',
                     'district_colname': 'OBJECTID',
                     'show': False},
-        'gop':     {'name': 'VA House GOP Map', 
+        'gop':     {'name': 'VA House GOP Map',
                     'path': start_path + 'Maps/GOP map/HB7002_shapefile.shp',
                     'district_colname': 'OBJECTID',
                     'show': False}
@@ -39,12 +39,12 @@ common_colname = 'district_no'
 
 for mapname in maps:
     df = gpd.read_file(maps[mapname]['path'])
-    
+
     df = df.rename(columns={maps[mapname]['district_colname']: common_colname})
-        
+
     df[common_colname] = df[common_colname].astype(str)
     df = df[df[common_colname].isin(bh)]
-    
+
     for m in metrics:
         # df[m + '_' + mapname] = metrics[m](df)
         df[m] = metrics[m](df)
@@ -55,18 +55,16 @@ for mapname in maps:
 all = pd.concat([maps[mapname]['df'] for mapname in maps], sort=False)
 mean = all.pivot_table(values=metrics.keys(), index='map')
 
-all = all.pivot_table(values=metrics.keys(), index=['map', common_colname]).sort_values(by=['map', common_colname])
+all = all.pivot_table(values=metrics.keys(), index=['map', common_colname]).sort_values(by=[common_colname, 'map'])
 
-all.to_csv('/home/hannah/PGG/VA-gerrymander/Analysis/Compactness/compactness_comparison.csv', index=False, float_format='%.3f')
-mean.to_csv('/home/hannah/PGG/VA-gerrymander/Analysis/Compactness/mean_compactness_comparison.csv', index=False, float_format='%.3f')
+all.to_csv('C:/Users/mahrud/Desktop/PGG/VA/Analysis/Compactness/compactness_comparison.csv', index=True, float_format='%.3f')
+mean.to_csv('C:/Users/mahrud/Desktop/PGG/VA/Analysis/Compactness/mean_compactness_comparison.csv', index=False, float_format='%.3f')
 
 def markdown_table(df, precision=3, showindex=False):
     return tabulate.tabulate(df, headers=df.columns, floatfmt=f'.{precision}g', tablefmt='pipe', showindex=showindex)
 
-with open("/home/hannah/PGG/VA-gerrymander/Analysis/Compactness/README.md", "w") as text_file:
+with open("C:/Users/mahrud/Desktop/PGG/VA/Analysis/Compactness/README.md", "w") as text_file:
     print('Various compactness metrics:\n', file=text_file)
     print(markdown_table(mean, showindex=True), file=text_file)
     print('\n\n', file=text_file)
     print(markdown_table(pd.DataFrame(all.to_records()), showindex=True), file=text_file)
-
-
