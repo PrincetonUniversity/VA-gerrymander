@@ -73,7 +73,7 @@ other_elections = {'Clinton v. Sanders (2016)': ['P_HC_16_x', 'P_BS_16_x'],
              'Fairfax v. Vogel (2017)': ['LG_DEM_17_', 'LG_REP_17_'],
              'Herring v. Adams (2017)': ['AG_DEM_17_', 'AG_REP_17_']}
 
-all_elex = {**pres_only, **other_elections}
+all_elex = {**pres16, **other_elections}
 
 colors = {'reform': 'orange',
           'dems': 'blue',
@@ -84,7 +84,7 @@ colors = {'reform': 'orange',
 figs = {'election_results': {'maps': [i for i in maps],
                              'elections': all_elex},
         'election_results_pres_only': {'maps': ['reform', 'dems', 'gop'],
-                                       'elections': pres_only}}
+                                       'elections': pres16}}
 
 for f in figs:
     elections = figs[f]['elections']
