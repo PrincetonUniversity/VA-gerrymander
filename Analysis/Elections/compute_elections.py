@@ -1,7 +1,7 @@
 import geopandas as gpd
 import pandas as pd
 import sys
-sys.path.append('/Users/wtadler/Repos/gerrymander-geoprocessing/areal_interpolation')
+sys.path.append('/home/hannah/PGG/gerrymander-geoprocessing/areal_interpolation')
 import areal_interpolation as ai
 import tabulate
 import matplotlib.pyplot as plt
@@ -11,20 +11,26 @@ sns.set()
 
 unconstitutional_only = False
 
+start_path = '/home/hannah/PGG/VA-gerrymander/'
+
 maps = {'reform': {'name': 'PGP Reform map',
-                   'path': 'Maps/Reform map/Districts map bethune-hill final.shp',
+                   'path': start_path + 'Maps/Reform map/Districts map bethune-hill final.shp',
                    'district_colname': 'DISTRICT',
                    'show': True},
         'enacted': {'name': 'Enacted map',
-                    'path': 'Maps/Enacted map/enacted.shp',
+                    'path': start_path + 'Maps/Enacted map/enacted.shp',
                     'district_colname': 'ID',
                     'show': False},
         'dems':    {'name': 'VA House Dems map',
-                    'path': 'Maps/House Dems map/HB7001.shp',
+                    'path': start_path + 'Maps/House Dems map/HB7001.shp',
                     'district_colname': 'OBJECTID',
                     'show': False},
-        'gop':     {'name': 'VA House GOP Map', 
-                    'path': 'Maps/GOP map/HB7002_shapefile.shp',
+        'gop_bell':     {'name': 'VA House GOP Map',
+                    'path': start_path + 'Maps/GOP map bell/HB7002_shapefile.shp',
+                    'district_colname': 'OBJECTID',
+                    'show': False}, 
+        'gop_jones':    {'name': 'VA House GOP (Jones)',
+                    'path': start_path + 'Maps/GOP map jones/HB7003.shp',
                     'district_colname': 'OBJECTID',
                     'show': False}
         }
@@ -45,7 +51,7 @@ adjacent_label = 'Adjacent to a district ruled unconstitutional'
 
 #%%
 # get census block geography with BVAP and VAP data
-precincts = 'Maps/Relevant precincts/BH_precincts_with_BVAP_VAP.shp'
+precincts = '/home/hannah/PGG/VA-gerrymander/Maps/Relevant precincts/BH_precincts_with_BVAP_VAP.shp'
 precincts = gpd.read_file(precincts)
 
 potential_cols = ['locality', 'precinct', 'NAME', 'BVAP', 'VAP', 'prop_BVAP', 'prop_D_LG', 'prop_D_p', 'prop_D_G', 'prop_D_AG', 'prop_D_P', 'index', 'geometry']

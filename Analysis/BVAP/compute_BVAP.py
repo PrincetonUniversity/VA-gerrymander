@@ -98,7 +98,7 @@ mean.to_csv('/home/hannah/PGG/VA-gerrymander/Analysis/BVAP/mean_bvap_comparison.
 def markdown_table(df, precision=3, showindex=False):
     return tabulate.tabulate(df, headers=df.columns, floatfmt=f'.{precision}g', tablefmt='pipe', showindex=showindex)
 
-with open("/home/hannah/PGG/VA-gerrymanderpwd/Analysis/BVAP/README.md", "w") as text_file:
+with open("/home/hannah/PGG/VA-gerrymander/Analysis/BVAP/README.md", "w") as text_file:
     print('Proportion of voting-age population that identifies as Black or African-American (one race only), by district.\n', file=text_file)
     print(markdown_table(mean, showindex=True), file=text_file)
     print('\n\n', file=text_file)
