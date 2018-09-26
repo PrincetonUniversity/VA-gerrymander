@@ -65,7 +65,7 @@ all.to_csv('/home/hannah/PGG/VA-gerrymander/Analysis/Compactness/compactness_com
 mean.to_csv('/home/hannah/PGG/VA-gerrymander/Analysis/Compactness/mean_compactness_comparison.csv', index=False, float_format='%.3f')
 
 def markdown_table(df, precision=3, showindex=False):
-    return tabulate.tabulate(df, headers=df.columns, floatfmt=f'.{precision}g', tablefmt='pipe', showindex=showindex)
+    return tabulate.tabulate(df, headers=df.columns, floatfmt=f'.{precision}g', tablefmt='pipe', showindex="never")
 
 with open("/home/hannah/PGG/VA-gerrymander/Analysis/Compactness/README.md", "w") as text_file:
     print('Various compactness metrics:\n', file=text_file)
