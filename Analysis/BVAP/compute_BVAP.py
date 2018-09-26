@@ -1,11 +1,11 @@
 import geopandas as gpd
 import pandas as pd
 import sys
-sys.path.append('/gerrymander-geoprocessing/areal_interpolation')
+sys.path.append('/home/hannah/PGG/gerrymander-geoprocessing/areal_interpolation')
 import areal_interpolation as ai
 import tabulate
 
-start_path = ''
+start_path = '/home/hannah/PGG/VA-gerrymander/'
 
 maps = {'reform': {'name': 'PGP Reform map',
                    'path': start_path + 'Maps/Reform map/Districts map bethune-hill final.shp',
@@ -19,8 +19,12 @@ maps = {'reform': {'name': 'PGP Reform map',
                     'path': start_path + 'Maps/House Dems map/HB7001.shp',
                     'district_colname': 'OBJECTID',
                     'show': False},
-        'gop':     {'name': 'VA House GOP Map', 
-                    'path': start_path + 'Maps/GOP map/HB7002_shapefile.shp',
+        'gop_bell':     {'name': 'VA House GOP Map',
+                    'path': start_path + 'Maps/GOP map bell/HB7002_shapefile.shp',
+                    'district_colname': 'OBJECTID',
+                    'show': False}, 
+        'gop_jones':    {'name': 'VA House GOP (Jones)',
+                    'path': start_path + 'Maps/GOP map jones/HB7003.shp',
                     'district_colname': 'OBJECTID',
                     'show': False}
         }
@@ -37,9 +41,9 @@ adjacent_label = 'Adjacent to a district ruled unconstitutional'
 
 #%%
 # get census block geography with BVAP and VAP data
-census_blocks = '/princeton_gerrymandering_project/mapping/VA/2010 Census/Census Blocks with Population/tabblock2010_51_pophu.shp'
+census_blocks = '/home/hannah/princeton_gerrymandering_project/mapping/VA/2010 Census/Census Blocks with Population/tabblock2010_51_pophu.shp'
 
-P10_table = '/princeton_gerrymandering_project/mapping/VA/2010 Census/P10 Race for 18+ Population by Block/nhgis0003_ds172_2010_block.csv'
+P10_table = '/home/hannah/princeton_gerrymandering_project/mapping/VA/2010 Census/P10 Race for 18+ Population by Block/nhgis0003_ds172_2010_block.csv'
 
 blocks = gpd.read_file(census_blocks)
 
@@ -70,7 +74,7 @@ for mapname in maps:
                             'VAP': 'VAP_' + mapname})
 
     df.loc[df[common_colname].isin([str(i) for i in affected]), 'status'] = affected_label
-    df.loc[df[common_colname].isin([str(i) for i in adjacrent]), 'status'] = adjacent_label
+    df.loc[df[common_colname].isin([str(i) for i in adjacent]), 'status'] = adjacent_label
 
     maps[mapname]['df'] = df
 
@@ -85,16 +89,16 @@ df[common_colname] = df[common_colname].astype(int)
 sorted = df.sort_values(by=['status', common_colname], ascending=[False, True])
 sorted
 
-sorted.to_csv('/Analysis/BVAP/bvap_comparison.csv', index=False, float_format='%.3f')
+sorted.to_csv('/home/hannah/PGG/VA-gerrymander/Analysis/BVAP/bvap_comparison.csv', index=False, float_format='%.3f')
 
 
 mean = pd.DataFrame(df.loc[df['status']==affected_label, ['prop_BVAP_' + i for i in maps]].mean()).T.rename(index={0: 'mean BVAP in affected districts'})
-mean.to_csv('/Analysis/BVAP/mean_bvap_comparison.csv', index=False, float_format='%.3f')
+mean.to_csv('/home/hannah/PGG/VA-gerrymander/Analysis/BVAP/mean_bvap_comparison.csv', index=False, float_format='%.3f')
 
 def markdown_table(df, precision=3, showindex=False):
     return tabulate.tabulate(df, headers=df.columns, floatfmt=f'.{precision}g', tablefmt='pipe', showindex=showindex)
 
-with open("/Analysis/BVAP/README.md", "w") as text_file:
+with open("/home/hannah/PGG/VA-gerrymanderpwd/Analysis/BVAP/README.md", "w") as text_file:
     print('Proportion of voting-age population that identifies as Black or African-American (one race only), by district.\n', file=text_file)
     print(markdown_table(mean, showindex=True), file=text_file)
     print('\n\n', file=text_file)

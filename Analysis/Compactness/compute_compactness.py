@@ -1,5 +1,5 @@
 import sys
-sys.path.append('C:/Users/mahrud/Desktop/PGG/VA/Analysis/Compactness')
+sys.path.append('/home/hannah/PGG/VA-gerrymander//Analysis/Compactness')
 import continuous_measures as cm
 import geopandas as gpd
 import pandas as pd
@@ -61,7 +61,7 @@ mean = all.pivot_table(values=metrics.keys(), index='map')
 
 all = all.pivot_table(values=metrics.keys(), index=['map', common_colname]).sort_values(by=[common_colname, 'map'])
 
-all.to_csv('/home/hannah/PGG/VA-gerrymander/Analysis/Compactness/compactness_comparison.csv', index=True, float_format='%.3f')
+all.to_csv('/home/hannah/PGG/VA-gerrymander/Analysis/Compactness/compactness_comparison.csv', index=False, float_format='%.3f')
 mean.to_csv('/home/hannah/PGG/VA-gerrymander/Analysis/Compactness/mean_compactness_comparison.csv', index=False, float_format='%.3f')
 
 def markdown_table(df, precision=3, showindex=False):
