@@ -71,11 +71,11 @@ maps = {'reform': {'name': 'PGP Reform',
                     'district_colname': 'OBJECTID',
                     'show': False},
         'gop_1':    {'name': 'VA House GOP (Bell)',
-                    'path': start_path + 'Maps/GOP map jones/HB7002_shapefile.shp',
+                    'path': start_path + 'Maps/GOP map bell/HB7002_shapefile.shp',
                     'district_colname': 'OBJECTID',
                     'show': False},
         'gop_2':    {'name': 'VA House GOP (Jones)',
-                    'path': start_path + 'Maps/GOP map bell/HB7003_shapefile.shp',
+                    'path': start_path + 'Maps/GOP map jones/HB7003.shp',
                     'district_colname': 'OBJECTID',
                     'show': False}
         }
