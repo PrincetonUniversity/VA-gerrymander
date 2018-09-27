@@ -52,26 +52,30 @@ color_df = pd.DataFrame.from_dict(colordict, orient='index')
 # map boundaries, SW and NE points
 bounds = [[36.482, -78.91], [38.22, -75.19]]
 
-start_path = '/home/hannah/PGG/VA-gerrymander/'
-
 maps = {'reform': {'name': 'PGP Reform map',
-                   'path': start_path + 'Maps/Reform map/Districts map bethune-hill final.shp',
+                   'path': 'Maps/Reform map/Districts map bethune-hill final.shp',
                    'district_colname': 'DISTRICT',
                    'show': True},
         'enacted': {'name': 'Enacted map',
-                    'path': start_path + 'Maps/Enacted map/enacted.shp',
+                    'path': 'Maps/Enacted map/enacted.shp',
                     'district_colname': 'ID',
                     'show': False},
         'dems':    {'name': 'VA House Dems map',
-                    'path': start_path + 'Maps/House Dems map/HB7001.shp',
+                    'path': 'Maps/House Dems map/HB7001.shp',
                     'district_colname': 'OBJECTID',
                     'show': False},
-        'gop_bell':     {'name': 'VA House GOP Map',
-                    'path': start_path + 'Maps/GOP map bell substitute/HB7002_ANS.shp',
+# =============================================================================
+#         'gop_bell1':     {'name': 'VA House GOP (Bell 1)',
+#                     'path': 'Maps/GOP map bell/HB7002_shapefile.shp',
+#                     'district_colname': 'OBJECTID',
+#                     'show': False},
+# =============================================================================
+        'gop_bell2':     {'name': 'VA House GOP (Bell)',
+                    'path': 'Maps/GOP map bell substitute/HB7002_ANS.shp',
                     'district_colname': 'OBJECTID',
                     'show': False}, 
         'gop_jones':    {'name': 'VA House GOP (Jones)',
-                    'path': start_path + 'Maps/GOP map jones/HB7003.shp',
+                    'path': 'Maps/GOP map jones/HB7003.shp',
                     'district_colname': 'OBJECTID',
                     'show': False}
         }
