@@ -5,7 +5,7 @@ sys.path.append('/gerrymander-geoprocessing/areal_interpolation')
 import areal_interpolation as ai
 import tabulate
 
-start_path = ''
+start_path = '/home/hannah/PGG/VA-gerrymander/'
 
 maps = {'reform': {'name': 'PGP Reform map',
                    'path': start_path + 'Maps/Reform map/Districts map bethune-hill final.shp',
@@ -20,7 +20,7 @@ maps = {'reform': {'name': 'PGP Reform map',
                     'district_colname': 'OBJECTID',
                     'show': False},
         'gop_bell':     {'name': 'VA House GOP Map',
-                    'path': start_path + 'Maps/GOP map bell/HB7002_shapefile.shp',
+                    'path': start_path + 'Maps/GOP map bell substitute/HB7002_ANS.shp',
                     'district_colname': 'OBJECTID',
                     'show': False}, 
         'gop_jones':    {'name': 'VA House GOP (Jones)',
