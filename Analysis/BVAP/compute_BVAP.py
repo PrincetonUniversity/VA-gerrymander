@@ -5,7 +5,7 @@ sys.path.append('/gerrymander-geoprocessing/areal_interpolation')
 import areal_interpolation as ai
 import tabulate
 
-start_path = '/home/hannah/PGG/VA-gerrymander/'
+start_path = ''
 
 maps = {'reform': {'name': 'PGP Reform map',
                    'path': start_path + 'Maps/Reform map/Districts map bethune-hill final.shp',
@@ -19,13 +19,23 @@ maps = {'reform': {'name': 'PGP Reform map',
                     'path': start_path + 'Maps/House Dems map/HB7001.shp',
                     'district_colname': 'OBJECTID',
                     'show': False},
-        'gop_bell':     {'name': 'VA House GOP Map',
+# =============================================================================
+#         'gop_bell1':     {'name': 'VA House GOP (Bell 1)',
+#                     'path': start_path + 'Maps/GOP map bell/HB7002_shapefile.shp',
+#                     'district_colname': 'OBJECTID',
+#                     'show': False},
+# =============================================================================
+        'gop_bell2':     {'name': 'VA House GOP (Bell)',
                     'path': start_path + 'Maps/GOP map bell substitute/HB7002_ANS.shp',
                     'district_colname': 'OBJECTID',
                     'show': False}, 
         'gop_jones':    {'name': 'VA House GOP (Jones)',
                     'path': start_path + 'Maps/GOP map jones/HB7003.shp',
                     'district_colname': 'OBJECTID',
+                    'show': False},
+        'new_VA':    {'name': 'New VA Majority',
+                    'path': start_path + 'Maps/New VA Majority/VA NVM Map Submission 20180926.shp',
+                    'district_colname': 'District',
                     'show': False}
         }
         

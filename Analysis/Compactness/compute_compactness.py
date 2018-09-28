@@ -19,13 +19,23 @@ maps = {'reform': {'name': 'PGP Reform map',
                     'path': start_path + 'Maps/House Dems map/HB7001.shp',
                     'district_colname': 'OBJECTID',
                     'show': False},
-        'gop_bell':     {'name': 'VA House GOP Map',
-                    'path': start_path + 'Maps/GOP map bell/HB7002_shapefile.shp',
+# =============================================================================
+#         'gop_bell1':     {'name': 'VA House GOP (Bell 1)',
+#                     'path': start_path + 'Maps/GOP map bell/HB7002_shapefile.shp',
+#                     'district_colname': 'OBJECTID',
+#                     'show': False},
+# =============================================================================
+        'gop_bell2':     {'name': 'VA House GOP (Bell)',
+                    'path': start_path + 'Maps/GOP map bell substitute/HB7002_ANS.shp',
                     'district_colname': 'OBJECTID',
                     'show': False}, 
         'gop_jones':    {'name': 'VA House GOP (Jones)',
                     'path': start_path + 'Maps/GOP map jones/HB7003.shp',
                     'district_colname': 'OBJECTID',
+                    'show': False},
+        'new_VA':    {'name': 'New VA Majority',
+                    'path': start_path + 'Maps/New VA Majority/VA NVM Map Submission 20180926.shp',
+                    'district_colname': 'District',
                     'show': False}
         }
 
@@ -61,14 +71,14 @@ mean = all.pivot_table(values=metrics.keys(), index='map')
 
 all = all.pivot_table(values=metrics.keys(), index=['map', common_colname]).sort_values(by=[common_colname, 'map'])
 
-all.to_csv('/Analysis/Compactness/compactness_comparison.csv', index=False, float_format='%.3f')
-mean.to_csv('/Analysis/Compactness/mean_compactness_comparison.csv', index=False, float_format='%.3f')
+all.to_csv('/Analysis/Compactness/compactness_comparison.csv', index=True, float_format='%.3f')
+mean.to_csv('/Analysis/Compactness/mean_compactness_comparison.csv', index=True, float_format='%.3f')
 
 def markdown_table(df, precision=3, showindex=False):
-    return tabulate.tabulate(df, headers=df.columns, floatfmt=f'.{precision}g', tablefmt='pipe', showindex="never")
+    return tabulate.tabulate(df, headers=df.columns, floatfmt=f'.{precision}g', tablefmt='pipe', showindex=showindex)
 
-with open(" /Analysis/Compactness/README.md", "w") as text_file:
+with open("/Analysis/Compactness/README.md", "w") as text_file:
     print('Various compactness metrics:\n', file=text_file)
     print(markdown_table(mean, showindex=True), file=text_file)
     print('\n\n', file=text_file)
-    print(markdown_table(pd.DataFrame(all.to_records()), showindex=True), file=text_file)
+    print(markdown_table(pd.DataFrame(all.to_records()), showindex="never"), file=text_file)
