@@ -52,16 +52,18 @@ color_df = pd.DataFrame.from_dict(colordict, orient='index')
 # map boundaries, SW and NE points
 bounds = [[36.482, -78.91], [38.22, -75.19]]
 
+start_path = 'C:/Users/conno/Documents/GitHub/VA-gerrymander/Maps/'
+
 maps = {'reform': {'name': 'PGP Reform map',
-                   'path': 'Maps/Reform map/Districts map bethune-hill final.shp',
+                   'path': start_path + 'Maps/Reform map/Districts map bethune-hill final.shp',
                    'district_colname': 'DISTRICT',
                    'show': True},
         'enacted': {'name': 'Enacted map',
-                    'path': 'Maps/Enacted map/enacted.shp',
+                    'path': start_path + 'Maps/Enacted map/enacted.shp',
                     'district_colname': 'ID',
                     'show': False},
         'dems':    {'name': 'VA House Dems map',
-                    'path': 'Maps/House Dems map/HB7001.shp',
+                    'path': start_path + 'Maps/House Dems map/HB7001.shp',
                     'district_colname': 'OBJECTID',
                     'show': False},
 # =============================================================================
@@ -71,11 +73,11 @@ maps = {'reform': {'name': 'PGP Reform map',
 #                     'show': False},
 # =============================================================================
         'gop_bell2':     {'name': 'VA House GOP (Bell)',
-                    'path': 'Maps/GOP map bell substitute/HB7002_ANS.shp',
+                    'path': start_path + 'Maps/GOP map bell substitute/HB7002_ANS.shp',
                     'district_colname': 'OBJECTID',
                     'show': False}, 
         'gop_jones':    {'name': 'VA House GOP (Jones)',
-                    'path': 'Maps/GOP map jones/HB7003.shp',
+                    'path': start_path + 'Maps/GOP map jones/HB7003.shp',
                     'district_colname': 'OBJECTID',
                     'show': False}
         }
@@ -333,6 +335,6 @@ m.get_root().header.add_child(folium.Element(
     ' initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />'
 ))
 
-filename = "Maps/Interactive/map_comparison.html"
+filename = start_path + "Maps/Interactive/map_comparison.html"
 m.save(filename)
 
