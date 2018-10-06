@@ -311,7 +311,7 @@ legend_box = f'''
 </style>
 
 <div id="legend" class="overlay_box">
-<span id="legend_text">Percentage of population that identifies as non-Hispanic Black (2010 Census), by Census Tract</span>
+<span id="legend_text">Percentage of voting-age population that identifies as non-Hispanic Black (BVAP; 2010 Census), by Census Tract</span>
 <ul>
   <li><span class="swatch choro1"></span>0%</li><br>
   <li><span class="swatch choro2"></span>25%</li><br>
