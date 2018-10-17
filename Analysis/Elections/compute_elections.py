@@ -1,7 +1,7 @@
 import geopandas as gpd
 import pandas as pd
 import sys
-sys.path.append('/home/hannah/PGG/gerrymander-geoprocessing/areal_interpolation')
+sys.path.append('/Users/wtadler/Repos/gerrymander-geoprocessing/areal_interpolation')
 import areal_interpolation as ai
 import tabulate
 import matplotlib.pyplot as plt
@@ -11,28 +11,31 @@ sns.set()
 
 unconstitutional_only = False
 
-start_path = '/home/hannah/PGG/VA-gerrymander/'
-
 maps = {'reform': {'name': 'PGP Reform map',
-                   'path': start_path + 'Maps/Reform map/Districts map bethune-hill final.shp',
+                   'path': 'Maps/Reform map/Districts map bethune-hill final.shp',
                    'district_colname': 'DISTRICT',
-                   'show': True},
+                   'show': True,
+                   'color': 'orange'},
         'enacted': {'name': 'Enacted map',
-                    'path': start_path + 'Maps/Enacted map/enacted.shp',
+                    'path': 'Maps/Enacted map/enacted.shp',
                     'district_colname': 'ID',
-                    'show': False},
+                    'show': False,
+                    'color': 'violet'},
         'dems':    {'name': 'VA House Dems map',
-                    'path': start_path + 'Maps/House Dems map/HB7001.shp',
+                    'path': 'Maps/House Dems map/HB7001.shp',
                     'district_colname': 'OBJECTID',
-                    'show': False},
-        'gop_bell':     {'name': 'VA House GOP Map',
-                    'path': start_path + 'Maps/GOP map bell substitute/HB7002_ANS.shp',
+                    'show': False,
+                    'color': 'blue'},
+        'gop':     {'name': 'VA House GOP Map', 
+                    'path': 'Maps/GOP map bell substitute/HB7002_ANS.shp',
                     'district_colname': 'OBJECTID',
-                    'show': False}, 
-        'gop_jones':    {'name': 'VA House GOP (Jones)',
-                    'path': start_path + 'Maps/GOP map jones/HB7003.shp',
-                    'district_colname': 'OBJECTID',
-                    'show': False}
+                    'show': False,
+                    'color': 'red'},
+        'new_VA':  {'name': 'New VA Majority',
+                    'path': 'Maps/New VA Majority/VA NVM Map Submission 20180926.shp',
+                    'district_colname': 'District',
+                    'show': False,
+                    'color': 'green'}
         }
 
 common_colname = 'district_no'
@@ -51,7 +54,7 @@ adjacent_label = 'Adjacent to a district ruled unconstitutional'
 
 #%%
 # get census block geography with BVAP and VAP data
-precincts = '/home/hannah/PGG/VA-gerrymander/Maps/Relevant precincts/BH_precincts_with_BVAP_VAP.shp'
+precincts = 'Maps/Relevant precincts/BH_precincts_with_BVAP_VAP.shp'
 precincts = gpd.read_file(precincts)
 
 potential_cols = ['locality', 'precinct', 'NAME', 'BVAP', 'VAP', 'prop_BVAP', 'prop_D_LG', 'prop_D_p', 'prop_D_G', 'prop_D_AG', 'prop_D_P', 'index', 'geometry']
@@ -81,15 +84,10 @@ other_elections = {'Clinton v. Sanders (2016)': ['P_HC_16_x', 'P_BS_16_x'],
 
 all_elex = {**pres16, **other_elections}
 
-colors = {'reform': 'orange',
-          'dems': 'blue',
-          'enacted': 'violet',
-          'gop': 'red'}
-
 #%%
 figs = {'election_results': {'maps': [i for i in maps],
                              'elections': all_elex},
-        'election_results_pres_only': {'maps': ['reform', 'dems', 'gop'],
+        'election_results_pres_only': {'maps': ['reform', 'dems', 'gop', 'new_VA'],
                                        'elections': pres16}}
 
 for f in figs:
@@ -107,18 +105,18 @@ for f in figs:
             # print(mapname)
             df = maps[mapname]['df']
             v = df[elections[election][0]] / (df[elections[election][0]] + df[elections[election][1]])
-            axis.scatter(range(len(v)), sorted(v), label=mapname, s=15, color=colors[mapname], alpha=.7, linewidth=1.5, facecolor='none')
+            axis.scatter(range(len(v)), sorted(v), label=maps[mapname]['name'], s=15, color=maps[mapname]['color'], alpha=.7, linewidth=1.5, facecolor='none')
             axis.axhline(.5)
             axis.set_title(election)
             axis.set_ylim([.3, 1])
     
     if n_elex==1:
-        axis.legend()
+        axis.legend(loc='upper left')
         candidate = election.split(' ')[0]
         axis.set_ylabel(f'{candidate} voteshare')
         axis.set_xlabel(f'District, ranked by {candidate} voteshare')
     else:
-        ax[0].legend()
+        ax[0].legend(loc='upper left')
         ax[0].set_ylabel('Candidate 1 voteshare')
         ax[0].set_xlabel('District, ranked by candidate 1 voteshare')
     
