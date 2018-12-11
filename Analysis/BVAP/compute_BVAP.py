@@ -2,12 +2,14 @@ import geopandas as gpd
 import pandas as pd
 import sys
 sys.path.append('/gerrymander-geoprocessing/areal_interpolation')
-import areal_interpolation as ai
+from areal_interpolation import areal_interpolation as ai
 import tabulate
 
-start_path = ''
+start_path = '/Users/hwheelen/Documents/GitHub/VA-gerrymander/'
 
-maps = {'reform': {'name': 'PGP Reform map',
+append = True
+
+maps = {maps = {'reform': {'name': 'PGP Reform map',
                    'path': start_path + 'Maps/Reform map/Districts map bethune-hill final.shp',
                    'district_colname': 'DISTRICT',
                    'show': True},
@@ -36,9 +38,17 @@ maps = {'reform': {'name': 'PGP Reform map',
         'new_VA':    {'name': 'New VA Majority',
                     'path': start_path + 'Maps/New VA Majority/VA NVM Map Submission 20180926.shp',
                     'district_colname': 'District',
+                    'show': False},
+        'SM_few_changes': {'name': 'Special Master (fewest changes from Enacted)',
+                    'path':start_path + '/Maps/Special Master Map/fewest changes/FewestChangesSM.shp',
+                    'district_colname': 'District_N',
+                    'show': False},
+        'SM_most_changes': {'name': 'Special Master (most changes from Enacted)',
+                    'path':start_path + '/Maps/Special Master Map/most changes/MostChangesSM.shp',
+                    'district_colname': 'District_N',
                     'show': False}
         }
-        
+
 common_colname = 'district_no'
 
 # identify relevant districts
@@ -95,6 +105,8 @@ for mapname in keys[1:]:
     df = df.merge(maps[mapname]['df'][[common_colname] + [i + '_' + mapname for i in ['BVAP', 'VAP', 'prop_BVAP']]],
                       on=common_colname)
 
+#%%
+df = pd.read_csv('/Analysis/BVAP/bvap_comparison.csv')
 df[common_colname] = df[common_colname].astype(int)
 sorted = df.sort_values(by=['status', common_colname], ascending=[False, True])
 sorted
