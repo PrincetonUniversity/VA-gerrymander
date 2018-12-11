@@ -36,6 +36,14 @@ maps = {'reform': {'name': 'PGP Reform map',
         'new_VA':    {'name': 'New VA Majority',
                     'path': start_path + 'Maps/New VA Majority/VA NVM Map Submission 20180926.shp',
                     'district_colname': 'District',
+                    'show': False},
+        'SM_few_changes': {'name': 'Special Master (fewest changes from Enacted)',
+                    'path':'/Users/hwheelen/Documents/GitHub/VA-gerrymander/Maps/Special Master Map/fewest changes/FewestChangesSM.shp',
+                    'district_colname': 'District_N',
+                    'show': False},
+        'SM_most_changes': {'name': 'Special Master (most changes from Enacted)',
+                    'path':'/Users/hwheelen/Documents/GitHub/VA-gerrymander/Maps/Special Master Map/most changes/MostChangesSM.shp',
+                    'district_colname': 'District_N',
                     'show': False}
         }
 
@@ -72,7 +80,7 @@ mean = all.pivot_table(values=metrics.keys(), index='map')
 all = all.pivot_table(values=metrics.keys(), index=['map', common_colname]).sort_values(by=[common_colname, 'map'])
 
 all.to_csv('/Analysis/Compactness/compactness_comparison.csv', index=True, float_format='%.3f')
-mean.to_csv('/Analysis/Compactness/mean_compactness_comparison.csv', index=True, float_format='%.3f')
+mean.to_csv('Analysis/Compactness/mean_compactness_comparison.csv', index=True, float_format='%.3f')
 
 def markdown_table(df, precision=3, showindex=False):
     return tabulate.tabulate(df, headers=df.columns, floatfmt=f'.{precision}g', tablefmt='pipe', showindex=showindex)

@@ -52,12 +52,13 @@ color_df = pd.DataFrame.from_dict(colordict, orient='index')
 # map boundaries, SW and NE points
 bounds = [[36.482, -78.91], [38.22, -75.19]]
 
-maps = {'reform': {'name': 'PGP Reform map',
-                   'path': 'Maps/Reform map/Districts map bethune-hill final.shp',
+start_path  = ''
+maps = {'reform': {'name': 'Princeton Gerrymandering Project',
+                   'path':start_path + 'Maps/Reform map/Districts map bethune-hill final.shp',
                    'district_colname': 'DISTRICT',
                    'show': True},
         'enacted': {'name': 'Enacted map',
-                    'path': 'Maps/Enacted map/enacted.shp',
+                    'path':start_path + 'Maps/Enacted map/enacted.shp',
                     'district_colname': 'ID',
                     'show': False},
 # =============================================================================
@@ -82,15 +83,15 @@ maps = {'reform': {'name': 'PGP Reform map',
 #                     'district_colname': 'District',
 #                     'show': False}
 # =============================================================================
-        'SM_few_changes': {'name': 'Special Master-Fewest Changes',
-                    'path': 'Maps/fewest changes/FewestChangesSM.shp',
+        'SM_few_changes': {'name': 'Special Master (fewest changes from Enacted)',
+                    'path':start_path + '/Maps/Special Master Map/fewest changes/FewestChangesSM.shp',
                     'district_colname': 'District_N',
                     'show': False},
-        'SM_most_changes': {'name': 'Special Master-Most Changes',
-                    'path': 'Maps/mostst changes/MostChangesSM.shp',
+        'SM_most_changes': {'name': 'Special Master (most changes from Enacted)',
+                    'path':start_path + '/Maps/Special Master Map/most changes/MostChangesSM.shp',
                     'district_colname': 'District_N',
                     'show': False}                    
-                    }
+        }
 
 common_colname = 'district_no'
 
@@ -345,6 +346,6 @@ m.get_root().header.add_child(folium.Element(
     ' initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />'
 ))
 
-filename = "Maps/Interactive/map_comparison.html"
+filename = start_path + "Maps/Interactive/map_comparison.html"
 m.save(filename)
 
