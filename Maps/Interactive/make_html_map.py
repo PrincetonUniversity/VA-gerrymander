@@ -60,29 +60,37 @@ maps = {'reform': {'name': 'PGP Reform map',
                     'path': 'Maps/Enacted map/enacted.shp',
                     'district_colname': 'ID',
                     'show': False},
-        'dems':    {'name': 'VA House Dems map',
-                    'path': 'Maps/House Dems map/HB7001.shp',
-                    'district_colname': 'OBJECTID',
-                    'show': False},
 # =============================================================================
+#         'dems':    {'name': 'VA House Dems map',
+#                     'path': 'Maps/House Dems map/HB7001.shp',
+#                     'district_colname': 'OBJECTID',
+#                     'show': False},
 #         'gop_bell1':     {'name': 'VA House GOP (Bell 1)',
 #                     'path': 'Maps/GOP map bell/HB7002_shapefile.shp',
 #                     'district_colname': 'OBJECTID',
 #                     'show': False},
+#         'gop_bell2':     {'name': 'VA House GOP (Bell)',
+#                     'path': 'Maps/GOP map bell substitute/HB7002_ANS.shp',
+#                     'district_colname': 'OBJECTID',
+#                     'show': False}, 
+#         'gop_jones':    {'name': 'VA House GOP (Jones)',
+#                     'path': 'Maps/GOP map jones/HB7003.shp',
+#                     'district_colname': 'OBJECTID',
+#                     'show': False},
+#         'new_VA':    {'name': 'New VA Majority',
+#                     'path': 'Maps/New VA Majority/VA NVM Map Submission 20180926.shp',
+#                     'district_colname': 'District',
+#                     'show': False}
 # =============================================================================
-        'gop_bell2':     {'name': 'VA House GOP (Bell)',
-                    'path': 'Maps/GOP map bell substitute/HB7002_ANS.shp',
-                    'district_colname': 'OBJECTID',
-                    'show': False}, 
-        'gop_jones':    {'name': 'VA House GOP (Jones)',
-                    'path': 'Maps/GOP map jones/HB7003.shp',
-                    'district_colname': 'OBJECTID',
+        'SM_few_changes': {'name': 'Special Master-Fewest Changes',
+                    'path': 'Maps/fewest changes/FewestChangesSM.shp',
+                    'district_colname': 'District_N',
                     'show': False},
-        'new_VA':    {'name': 'New VA Majority',
-                    'path': 'Maps/New VA Majority/VA NVM Map Submission 20180926.shp',
-                    'district_colname': 'District',
-                    'show': False}
-        }
+        'SM_most_changes': {'name': 'Special Master-Most Changes',
+                    'path': 'Maps/mostst changes/MostChangesSM.shp',
+                    'district_colname': 'District_N',
+                    'show': False}                    
+                    }
 
 common_colname = 'district_no'
 
