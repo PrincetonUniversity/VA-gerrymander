@@ -17,21 +17,21 @@ In many counties, absentee votes are reported at the county level, rather than b
 Provisional votes are also often reported at the county level, but we did not add them into these totals.
 
 ## Election Key
-'G18DHOR', 'G18RHOR', 'G18OHOR' are General 2018 Democratic, Republican, and other House of Representatives
+'G18DHOR', 'G18RHOR', 'G18OHOR': General 2018 Democratic, Republican, and other House of Representatives
 
-'G18OSEN', 'G18DSEN', 'G18RSEN', are General 2018 D, R, and other Senate
+'G18OSEN', 'G18DSEN', 'G18RSEN': General 2018 D, R, and other Senate
 
-'G17DGOV', 'G17RGOV', 'G17OGOV' are General 2017 D, R, and other Governor
+'G17DGOV', 'G17RGOV', 'G17OGOV':  General 2017 D, R, and other Governor
 
-'G17DLTG',  'G17RLTG' are General 2017 D and R Lieutenant Governor
+'G17DLTG',  'G17RLTG': General 2017 D and R Lieutenant Governor
 
-'G17DATG', 'G17RATG' are General 2017 D and R Attorney General
+'G17DATG', 'G17RATG': General 2017 D and R Attorney General
 
-'G17DHOD', 'G17RHOD', 'G17OHOD' are General 2017 D, R, and other House of Delegates
+'G17DHOD', 'G17RHOD', 'G17OHOD': General 2017 D, R, and other House of Delegates
 
-'G16DPRS', 'G16RPRS', 'G16OPRS' are General 2016 D, R, and other President
+'G16DPRS', 'G16RPRS', 'G16OPRS': General 2016 D, R, and other President
 
-'G16DHOR', 'G16RHOR', 'G16OHOR' are General 2016 D, R, and other House of Representatives
+'G16DHOR', 'G16RHOR', 'G16OHOR': General 2016 D, R, and other House of Representatives
 
 
 ## Built With
