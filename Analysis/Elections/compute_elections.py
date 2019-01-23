@@ -105,7 +105,7 @@ elecs = table [['district_no','map','Clinton16','Trump16','HouseOfRep16Dem','Hou
 elecs ['district_no']= elecs['district_no'].astype(int)
 elecs = elecs.sort_values('district_no')       
 elecs.to_csv('/Users/hwheelen/Documents/GitHub/VA-gerrymander/Analysis/Elections/elections_comparison.csv', index=True, float_format='%.3f')
-elecs_dem=elecs[['Clinton16', 'HouseOfRep16Dem','Gov17_Northam','LtGov17_Fairfax', 
+elecs_dem=elecs[['district_no','map','Clinton16', 'HouseOfRep16Dem','Gov17_Northam','LtGov17_Fairfax', 
                  'AtGen17_Herring','HouseOfDel17Dem','Sen18_Kaine']]
 pres16 = {'Clinton v. Trump (2016)': ['G16DPRS', 'G16RPRS']}
 other_elections = {'Kaine v. Stewart (2018)': ['G18DSEN', 'G18RSEN'],'Northam v. Gillespie (2017)': ['G17DGOV', 'G17RGOV'],
