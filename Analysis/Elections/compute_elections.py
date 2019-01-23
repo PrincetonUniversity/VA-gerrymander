@@ -153,8 +153,8 @@ for f in figs:
 def markdown_table(df, precision=3, showindex=False):
     return tabulate.tabulate(df, headers=df.columns, floatfmt=f'.{precision}g', tablefmt='pipe', showindex=showindex)
 
-with open("/Analysis/Elections/README.md", "w") as text_file:
+with open("/Users/hwheelen/Documents/GitHub/VA-gerrymander/Analysis/Elections/README.md", "w") as text_file:
     print('Various election outcomes:\n', file=text_file)
-    print(markdown_table(elecs, showindex=True), file=text_file)
+    print(markdown_table(elecs, showindex=False), file=text_file)
     #print('\n\n', file=text_file)
     #print(markdown_table(pd.DataFrame(all.to_records()), showindex="never"), file=text_file)
