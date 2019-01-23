@@ -1,7 +1,7 @@
 import geopandas as gpd
 import pandas as pd
 import sys
-sys.path.append('/gerrymander-geoprocessing/areal_interpolation')
+sys.path.append('/Users/hwheelen/Documents/GitHub/gerrymander-geoprocessing/areal_interpolation')
 from areal_interpolation import areal_interpolation as ai
 import tabulate
 import matplotlib.pyplot as plt
@@ -11,50 +11,21 @@ sns.set()
 
 unconstitutional_only = False
 
-start_path = ''
-
+start_path = '/Users/hwheelen/Documents/GitHub/VA-gerrymander/'
 maps = {'reform': {'name': 'PGP Reform map',
                    'path': start_path + 'Maps/Reform map/Districts map bethune-hill final.shp',
-                   'district_colname': 'DISTRICT',  'color': 'blue',
+                   'district_colname': 'DISTRICT',  'color': '#E77500',
                    'show': True},
         'enacted': {'name': 'Enacted map',
                     'path': start_path + 'Maps/Enacted map/enacted.shp',
-                    'district_colname': 'ID',  'color': 'green',
+                    'district_colname': 'ID',  'color': 'black',
                     'show': False},
-        'dems':    {'name': 'VA House Dems map',
-                    'path': start_path + 'Maps/House Dems map/HB7001.shp',
-                    'district_colname': 'OBJECTID',  'color': 'red',
-                    'show': False},
-# =============================================================================
-#         'gop_bell1':     {'name': 'VA House GOP (Bell 1)',
-#                     'path': start_path + 'Maps/GOP map bell/HB7002_shapefile.shp',
-#                     'district_colname': 'OBJECTID',
-#                     'show': False},
-# =============================================================================
-# =============================================================================
-#         'gop_bell2':     {'name': 'VA House GOP (Bell)',
-#                     'path': start_path + 'Maps/GOP map bell substitute/HB7002_ANS.shp',
-#                     'district_colname': 'OBJECTID',  'color': 4,
-#                     'show': False}, 
-# =============================================================================
-        'gop_jones':    {'name': 'VA House GOP (Jones)',
-                    'path': start_path + 'Maps/GOP map jones/HB7003.shp',
-                    'district_colname': 'OBJECTID',  'color': 'cyan',
-                    'show': False},
-        'new_VA':    {'name': 'New VA Majority',
-                    'path': start_path + 'Maps/New VA Majority/VA NVM Map Submission 20180926.shp',
-                    'district_colname': 'District',  'color': 'violet',
-                    'show': False},
-        'SM_few_changes': {'name': 'Special Master (fewest changes from Enacted)',
-                    'path':start_path + '/Maps/Special Master Map/fewest changes/FewestChangesSM.shp',
-                    'district_colname': 'District_N',  'color': 'magenta',
-                    'show': False},
-        'SM_most_changes': {'name': 'Special Master (most changes from Enacted)',
-                    'path':start_path + '/Maps/Special Master Map/most changes/MostChangesSM.shp',
-                    'district_colname': 'District_N',  'color': 'yellow',
+        'SM_court_order': {'name': 'Special Master (Court Ordered Modules)',
+                    'path':start_path + 'Maps/Special Master Map/Court Order Map/Groffman_Court_Order.shp',
+                    'district_colname': 'District_N', 'color': 'purple',
                     'show': False}
         }
-        
+
 
 common_colname = 'district_no'
 
@@ -72,41 +43,45 @@ adjacent_label = 'Adjacent to a district ruled unconstitutional'
 
 #%%
 # get census block geography with BVAP and VAP data
-precincts = '/Maps/Relevant precincts/BH_precincts_with_BVAP_VAP.shp'
+precincts = '/Users/hwheelen/Documents/GitHub/VA-gerrymander/Maps/VA Precincts/Precincts with CD/Elections/VA_Precincts_CD_and_Elections.shp'
 precincts = gpd.read_file(precincts)
 
-potential_cols = ['locality', 'precinct', 'NAME', 'BVAP', 'VAP', 'prop_BVAP', 'prop_D_LG', 'prop_D_p', 'prop_D_G', 'prop_D_AG', 'prop_D_P', 'index', 'geometry']
+#potential_cols = ['locality', 'precinct', 'loc_prec', 'prop_D_LG', 'prop_D_p', 'prop_D_G', 'prop_D_AG', 'prop_D_P', 'index', 'geometry']
 
-vote_cols = [i for i in precincts.columns if not any([i==j for j in potential_cols])]
+#vote_cols = [i for i in precincts.columns if not any([i==j for j in potential_cols])]
+vote_cols = ['G18DHOR','G18DSEN', 'G18OHOR', 'G18OSEN', 'G18RHOR', 'G18RSEN', 'G17DGOV',
+       'G17DLTG', 'G17DATG', 'G17DHOD', 'G17RGOV', 'G17RLTG', 'G17RATG',
+       'G17RHOD', 'G17OHOD', 'G17OGOV', 'G16DPRS', 'G16RPRS', 'G16OPRS',
+       'G16DHOR', 'G16RHOR', 'G16OHOR']
 for mapname in maps:
         df = gpd.read_file(maps[mapname]['path'])
-        
+
         df = df.rename(columns={maps[mapname]['district_colname']: common_colname})
-            
+
         df[common_colname] = df[common_colname].astype(str)
         df = df[df[common_colname].isin(bh)]
-        
+
         df = ai.aggregate(precincts, df, source_columns=vote_cols, method='fractional_area')[1]
-    
+
         df.loc[df[common_colname].isin([str(i) for i in affected]), 'status'] = affected_label
         df.loc[df[common_colname].isin([str(i) for i in adjacent]), 'status'] = adjacent_label
-    
+
         maps[mapname]['df'] = df
-    
-pres16 = {'Clinton v. Trump (2016)': ['P_DEM_16_x', 'P_REP_16_x']}
-other_elections = {'Clinton v. Sanders (2016)': ['P_HC_16_x', 'P_BS_16_x'],
-             'Northam v. Gillespie (2017)': ['G_DEM_17_x', 'G_REP_17_x'],
-             'Fairfax v. Vogel (2017)': ['LG_DEM_17_', 'LG_REP_17_'],
-             'Herring v. Adams (2017)': ['AG_DEM_17_', 'AG_REP_17_']}
+
+pres16 = {'Clinton v. Trump (2016)': ['G16DPRS', 'G16RPRS']}
+other_elections = {'Kaine v. Stewart (2018)': ['G18DSEN', 'G18RSEN'],
+             'Northam v. Gillespie (2017)': ['G17DGOV', 'G17RGOV'],
+             'Fairfax v. Vogel (2017)': ['G17DLTG', 'G17RLTG'],
+             'Herring v. Adams (2017)': ['G17DATG', 'G17RATG']}
 
 all_elex = {**pres16, **other_elections}
 
 #%%
 figs = {'election_results': {'maps': [i for i in maps],
                              'elections': all_elex},
-        'election_results_pres_only': {'maps': ['reform', 'enacted', 'SM_most_changes','SM_few_changes' ],
+        'election_results_pres_only': {'maps': ['reform', 'enacted', 'SM_court_order' ],
                                        'elections': pres16}}
-
+maps['SM_court_order']['name'] = 'Special Master \n  (Court Ordered Modules)'
 for f in figs:
     elections = figs[f]['elections']
     n_elex = len(elections)
@@ -117,7 +92,7 @@ for f in figs:
             axis=ax
         else:
             axis=ax[i]
-            
+
         for mapname in figs[f]['maps']:
             # print(mapname)
             df = maps[mapname]['df']
@@ -126,15 +101,15 @@ for f in figs:
             axis.axhline(.5)
             axis.set_title(election)
             axis.set_ylim([.3, 1])
-    
+
     if n_elex==1:
-        axis.legend(loc='upper left')
+        axis.legend(loc='upper left',prop={'size': 9})
         candidate = election.split(' ')[0]
         axis.set_ylabel(f'{candidate} voteshare')
         axis.set_xlabel(f'District, ranked by {candidate} voteshare')
     else:
-        ax[0].legend(loc='upper left')
+        ax[0].legend(loc='upper left',prop={'size': 8})
         ax[0].set_ylabel('Candidate 1 voteshare')
         ax[0].set_xlabel('District, ranked by candidate 1 voteshare')
 
-    fig.savefig(f'/Analysis/Elections/{f}.pdf', bbox_inches='tight')
+    fig.savefig(f'/Users/hwheelen/Documents/GitHub/VA-gerrymander/Analysis/Elections/2{f}.pdf', bbox_inches='tight')
