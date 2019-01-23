@@ -76,14 +76,14 @@ total = all[['district_no','map',
        'G16OPRS', 'G16DHOR', 'G16RHOR', 'G16OHOR']]
 
 table = total
-table['Clinton16']=table['G16DPRS']/(table['G16DPRS']+table['G16RPRS']+table['G16OPRS'])
-table['Trump16']=table['G16RPRS']/(table['G16DPRS']+table['G16RPRS']+table['G16OPRS'])
+table['Clinton16']=table['G16DPRS']/(table['G16DPRS']+table['G16RPRS'])
+table['Trump16']=table['G16RPRS']/(table['G16DPRS']+table['G16RPRS'])
 
-table['HouseOfRep16Dem']=table['G16DHOR']/(table['G16DHOR']+table['G16RHOR']+table['G16OHOR'])
-table['HouseOfRep16Rep']=table['G16RHOR']/(table['G16DHOR']+table['G16RHOR']+table['G16OHOR'])
+table['HouseOfRep16Dem']=table['G16DHOR']/(table['G16DHOR']+table['G16RHOR'])
+table['HouseOfRep16Rep']=table['G16RHOR']/(table['G16DHOR']+table['G16RHOR'])
 
-table['Gov17_Northam']=table['G17DGOV']/(table['G17DGOV']+table['G17RGOV']+table['G17OGOV'])
-table['Gov17_Gillespie']=table['G17RGOV']/(table['G17DGOV']+table['G17RGOV']+table['G17OGOV'])
+table['Gov17_Northam']=table['G17DGOV']/(table['G17DGOV']+table['G17RGOV'])
+table['Gov17_Gillespie']=table['G17RGOV']/(table['G17DGOV']+table['G17RGOV'])
 
 table['LtGov17_Fairfax']=table['G17DLTG']/(table['G17DLTG']+table['G17RLTG'])
 table['LtGov17_Vogel']=table['G17RLTG']/(table['G17DLTG']+table['G17RLTG'])
@@ -91,20 +91,22 @@ table['LtGov17_Vogel']=table['G17RLTG']/(table['G17DLTG']+table['G17RLTG'])
 table['AtGen17_Herring']=table['G17DATG']/(table['G17DATG']+table['G17RATG'])
 table['AtGen17_Adams']=table['G17RATG']/(table['G17DATG']+table['G17RATG'])
 
-table['HouseOfDel17Dem']=table['G17DHOD']/(table['G17DHOD']+table['G17RHOD']+table['G17OHOD'])
-table['HouseOfDel17Rep']=table['G17RHOD']/(table['G17DHOD']+table['G17RHOD']+table['G17OHOD'])
+table['HouseOfDel17Dem']=table['G17DHOD']/(table['G17DHOD']+table['G17RHOD'])
+table['HouseOfDel17Rep']=table['G17RHOD']/(table['G17DHOD']+table['G17RHOD'])
 
-table['Sen18_Kaine']=table['G18DSEN']/(table['G18DSEN']+table['G18RSEN']+table['G18OSEN'])
-table['Sen18_Stewart']=table['G18RSEN']/(table['G18DSEN']+table['G18RSEN']+table['G18OSEN'])
+table['Sen18_Kaine']=table['G18DSEN']/(table['G18DSEN']+table['G18RSEN'])
+table['Sen18_Stewart']=table['G18RSEN']/(table['G18DSEN']+table['G18RSEN'])
 
-table['HouseOfRep16Dem']=table['G18DHOR']/(table['G18DHOR']+table['G18RHOR']+table['G18OHOR'])
-table['HouseOfRep16Dem']=table['G18RHOR']/(table['G18DHOR']+table['G18RHOR']+table['G18OHOR'])
+table['HouseOfRep16Dem']=table['G18DHOR']/(table['G18DHOR']+table['G18RHOR'])
+table['HouseOfRep16Dem']=table['G18RHOR']/(table['G18DHOR']+table['G18RHOR'])
 
 elecs = table [['district_no','map','Clinton16','Trump16','HouseOfRep16Dem','HouseOfRep16Rep','Gov17_Northam','Gov17_Gillespie','LtGov17_Fairfax',
                  'LtGov17_Vogel','AtGen17_Herring', 'AtGen17_Adams','HouseOfDel17Dem', 'HouseOfDel17Rep', 'Sen18_Kaine','Sen18_Stewart']]
+elecs ['district_no']= elecs['district_no'].astype(int)
 elecs = elecs.sort_values('district_no')       
 elecs.to_csv('/Users/hwheelen/Documents/GitHub/VA-gerrymander/Analysis/Elections/elections_comparison.csv', index=True, float_format='%.3f')
-
+elecs_dem=elecs[['Clinton16', 'HouseOfRep16Dem','Gov17_Northam','LtGov17_Fairfax', 
+                 'AtGen17_Herring','HouseOfDel17Dem','Sen18_Kaine']]
 pres16 = {'Clinton v. Trump (2016)': ['G16DPRS', 'G16RPRS']}
 other_elections = {'Kaine v. Stewart (2018)': ['G18DSEN', 'G18RSEN'],'Northam v. Gillespie (2017)': ['G17DGOV', 'G17RGOV'],
                    'Fairfax v. Vogel (2017)': ['G17DLTG', 'G17RLTG'],'Herring v. Adams (2017)': ['G17DATG', 'G17RATG']}
@@ -155,6 +157,6 @@ def markdown_table(df, precision=3, showindex=False):
 
 with open("/Users/hwheelen/Documents/GitHub/VA-gerrymander/Analysis/Elections/README.md", "w") as text_file:
     print('Various election outcomes:\n', file=text_file)
+    print(markdown_table(elecs_dem, showindex=False), file=text_file)
+    print('\n\n', file=text_file)
     print(markdown_table(elecs, showindex=False), file=text_file)
-    #print('\n\n', file=text_file)
-    #print(markdown_table(pd.DataFrame(all.to_records()), showindex="never"), file=text_file)
