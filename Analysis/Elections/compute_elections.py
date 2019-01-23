@@ -60,19 +60,54 @@ for mapname in maps:
 
         df[common_colname] = df[common_colname].astype(str)
         df = df[df[common_colname].isin(bh)]
-
+        df['map'] = mapname
         df = ai.aggregate(precincts, df, source_columns=vote_cols, method='fractional_area')[1]
 
         df.loc[df[common_colname].isin([str(i) for i in affected]), 'status'] = affected_label
         df.loc[df[common_colname].isin([str(i) for i in adjacent]), 'status'] = adjacent_label
 
         maps[mapname]['df'] = df
+all = pd.concat([maps[mapname]['df'] for mapname in maps], sort=False)
+
+total = all[['district_no','map',
+       'G18DHOR', 'G18DSEN', 'G18OHOR', 'G18OSEN', 'G18RHOR', 'G18RSEN',
+       'G17DGOV', 'G17DLTG', 'G17DATG', 'G17DHOD', 'G17RGOV', 'G17RLTG',
+       'G17RATG', 'G17RHOD', 'G17OHOD', 'G17OGOV', 'G16DPRS', 'G16RPRS',
+       'G16OPRS', 'G16DHOR', 'G16RHOR', 'G16OHOR']]
+
+table = total
+table['Clinton16']=table['G16DPRS']/(table['G16DPRS']+table['G16RPRS']+table['G16OPRS'])
+table['Trump16']=table['G16RPRS']/(table['G16DPRS']+table['G16RPRS']+table['G16OPRS'])
+
+table['HouseOfRep16Dem']=table['G16DHOR']/(table['G16DHOR']+table['G16RHOR']+table['G16OHOR'])
+table['HouseOfRep16Rep']=table['G16RHOR']/(table['G16DHOR']+table['G16RHOR']+table['G16OHOR'])
+
+table['Gov17_Northam']=table['G17DGOV']/(table['G17DGOV']+table['G17RGOV']+table['G17OGOV'])
+table['Gov17_Gillespie']=table['G17RGOV']/(table['G17DGOV']+table['G17RGOV']+table['G17OGOV'])
+
+table['LtGov17_Fairfax']=table['G17DLTG']/(table['G17DLTG']+table['G17RLTG'])
+table['LtGov17_Vogel']=table['G17RLTG']/(table['G17DLTG']+table['G17RLTG'])
+
+table['AtGen17_Herring']=table['G17DATG']/(table['G17DATG']+table['G17RATG'])
+table['AtGen17_Adams']=table['G17RATG']/(table['G17DATG']+table['G17RATG'])
+
+table['HouseOfDel17Dem']=table['G17DHOD']/(table['G17DHOD']+table['G17RHOD']+table['G17OHOD'])
+table['HouseOfDel17Rep']=table['G17RHOD']/(table['G17DHOD']+table['G17RHOD']+table['G17OHOD'])
+
+table['Sen18_Kaine']=table['G18DSEN']/(table['G18DSEN']+table['G18RSEN']+table['G18OSEN'])
+table['Sen18_Stewart']=table['G18RSEN']/(table['G18DSEN']+table['G18RSEN']+table['G18OSEN'])
+
+table['HouseOfRep16Dem']=table['G18DHOR']/(table['G18DHOR']+table['G18RHOR']+table['G18OHOR'])
+table['HouseOfRep16Dem']=table['G18RHOR']/(table['G18DHOR']+table['G18RHOR']+table['G18OHOR'])
+
+elecs = table [['district_no','map','Clinton16','Trump16','HouseOfRep16Dem','HouseOfRep16Rep','Gov17_Northam','Gov17_Gillespie','LtGov17_Fairfax',
+                 'LtGov17_Vogel','AtGen17_Herring', 'AtGen17_Adams','HouseOfDel17Dem', 'HouseOfDel17Rep', 'Sen18_Kaine','Sen18_Stewart']]
+elecs = elecs.sort_values('district_no')       
+elecs.to_csv('/Users/hwheelen/Documents/GitHub/VA-gerrymander/Analysis/Elections/elections_comparison.csv', index=True, float_format='%.3f')
 
 pres16 = {'Clinton v. Trump (2016)': ['G16DPRS', 'G16RPRS']}
-other_elections = {'Kaine v. Stewart (2018)': ['G18DSEN', 'G18RSEN'],
-             'Northam v. Gillespie (2017)': ['G17DGOV', 'G17RGOV'],
-             'Fairfax v. Vogel (2017)': ['G17DLTG', 'G17RLTG'],
-             'Herring v. Adams (2017)': ['G17DATG', 'G17RATG']}
+other_elections = {'Kaine v. Stewart (2018)': ['G18DSEN', 'G18RSEN'],'Northam v. Gillespie (2017)': ['G17DGOV', 'G17RGOV'],
+                   'Fairfax v. Vogel (2017)': ['G17DLTG', 'G17RLTG'],'Herring v. Adams (2017)': ['G17DATG', 'G17RATG']}
 
 all_elex = {**pres16, **other_elections}
 
@@ -113,3 +148,13 @@ for f in figs:
         ax[0].set_xlabel('District, ranked by candidate 1 voteshare')
 
     fig.savefig(f'/Users/hwheelen/Documents/GitHub/VA-gerrymander/Analysis/Elections/2{f}.pdf', bbox_inches='tight')
+#%%
+#make markdown
+def markdown_table(df, precision=3, showindex=False):
+    return tabulate.tabulate(df, headers=df.columns, floatfmt=f'.{precision}g', tablefmt='pipe', showindex=showindex)
+
+with open("/Analysis/Elections/README.md", "w") as text_file:
+    print('Various election outcomes:\n', file=text_file)
+    print(markdown_table(elecs, showindex=True), file=text_file)
+    #print('\n\n', file=text_file)
+    #print(markdown_table(pd.DataFrame(all.to_records()), showindex="never"), file=text_file)
