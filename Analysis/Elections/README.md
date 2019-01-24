@@ -1,5 +1,8 @@
 Various election outcomes:
 
+(These numbers are two party vote share taken from our [Virginia Precincts](https://github.com/PrincetonUniversity/VA-gerrymander/tree/master/Maps/VA%20Precincts/Precincts%20with%20CD/Elections) shapefile.)
+
+
 |   district_no | map            |   Clinton16 |   HouseOfRep16Dem |   Gov17_Northam |   LtGov17_Fairfax |   AtGen17_Herring |   HouseOfDel17Dem |   Sen18_Kaine |
 |--------------:|:---------------|------------:|------------------:|----------------:|------------------:|------------------:|------------------:|--------------:|
 |            27 | SM_court_order |       0.487 |             0.541 |           0.516 |             0.501 |             0.498 |           0.496   |         0.557 |
