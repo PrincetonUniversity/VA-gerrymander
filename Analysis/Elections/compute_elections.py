@@ -98,7 +98,7 @@ table['Sen18_Kaine']=table['G18DSEN']/(table['G18DSEN']+table['G18RSEN'])
 table['Sen18_Stewart']=table['G18RSEN']/(table['G18DSEN']+table['G18RSEN'])
 
 table['HouseOfRep16Dem']=table['G18DHOR']/(table['G18DHOR']+table['G18RHOR'])
-table['HouseOfRep16Dem']=table['G18RHOR']/(table['G18DHOR']+table['G18RHOR'])
+table['HouseOfRep16Rep']=table['G18RHOR']/(table['G18DHOR']+table['G18RHOR'])
 
 elecs = table [['district_no','map','Clinton16','Trump16','HouseOfRep16Dem','HouseOfRep16Rep','Gov17_Northam','Gov17_Gillespie','LtGov17_Fairfax',
                  'LtGov17_Vogel','AtGen17_Herring', 'AtGen17_Adams','HouseOfDel17Dem', 'HouseOfDel17Rep', 'Sen18_Kaine','Sen18_Stewart']]
