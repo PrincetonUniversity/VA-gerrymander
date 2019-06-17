@@ -53,14 +53,18 @@ color_df = pd.DataFrame.from_dict(colordict, orient='index')
 bounds = [[36.482, -78.91], [38.22, -75.19]]
 
 start_path  = ''
-maps = {'reform': {'name': 'Princeton Gerrymandering Project',
-                   'path':start_path + 'Maps/Reform map/Districts map bethune-hill final.shp',
-                   'district_colname': 'DISTRICT',
-                   'show': True},
-        'enacted': {'name': 'Enacted map',
-                    'path':start_path + 'Maps/Enacted map/enacted.shp',
-                    'district_colname': 'ID',
-                    'show': False},
+maps = {'SM_most_changes': {'name': 'New Map (Now in Effect)',
+                'path':start_path + 'Maps/Special Master Map/Court Order Map/New_Map.shp',
+                'district_colname': 'District_N',
+                'show': False},
+        'enacted': {'name': 'Old Map (Unconstitutional)',
+                'path':start_path + 'Maps/Enacted map/enacted.shp',
+                'district_colname': 'ID',
+                'show': False},
+        'reform': {'name': 'Princeton Gerrymandering Project',
+                'path':start_path + 'Maps/Reform map/Districts map bethune-hill final.shp',
+                           'district_colname': 'DISTRICT',
+                           'show': True}
 # =============================================================================
 #         'dems':    {'name': 'VA House Dems map',
 #                     'path': 'Maps/House Dems map/HB7001.shp',
@@ -73,7 +77,7 @@ maps = {'reform': {'name': 'Princeton Gerrymandering Project',
 #         'gop_bell2':     {'name': 'VA House GOP (Bell)',
 #                     'path': 'Maps/GOP map bell substitute/HB7002_ANS.shp',
 #                     'district_colname': 'OBJECTID',
-#                     'show': False}, 
+#                     'show': False},
 #         'gop_jones':    {'name': 'VA House GOP (Jones)',
 #                     'path': 'Maps/GOP map jones/HB7003.shp',
 #                     'district_colname': 'OBJECTID',
@@ -83,15 +87,8 @@ maps = {'reform': {'name': 'Princeton Gerrymandering Project',
 #                     'district_colname': 'District',
 #                     'show': False}
 # =============================================================================
-        'SM_few_changes': {'name': 'Special Master (fewest changes from Enacted)',
-                    'path':start_path + '/Maps/Special Master Map/fewest changes/FewestChangesSM.shp',
-                    'district_colname': 'District_N',
-                    'show': False},
-        'SM_most_changes': {'name': 'Special Master (most changes from Enacted)',
-                    'path':start_path + '/Maps/Special Master Map/most changes/MostChangesSM.shp',
-                    'district_colname': 'District_N',
-                    'show': False}                    
         }
+        
 
 common_colname = 'district_no'
 
@@ -121,7 +118,7 @@ for mapname in maps:
 
     # Place dataframe into the maps dict
     maps[mapname]['df'] = df
-    
+
 ###################
 # styles          #
 ###################
@@ -130,7 +127,7 @@ def style_func(x, choropleth=False, highlight=False):
         color = '#fff'
     else:
         color = '#888'
-    
+
     if highlight:
         if choropleth:
             fillColor = '#adadad'
@@ -147,12 +144,12 @@ def style_func(x, choropleth=False, highlight=False):
         else:
             fillOpacity = 0.18 if x['properties']['status']==adjacent_label else 0.55
         weight = 1
-    
+
     return {'fillColor': fillColor,
             'fillOpacity': fillOpacity,
             'color': color,
             'weight': weight}
-            
+
 
 #choropleth
 inferno = lambda x: rgb_to_hex(cm.inferno(x))
@@ -168,9 +165,7 @@ choropleth_style_function = lambda x: {'fillColor': inferno(x['properties']['Per
 ###################
 
 # Initialize the Interactive map with the correct bounds
-m = folium.Map(tiles=None, control_scale=True, min_lat=bounds[0][0],
-               max_lat=bounds[1][0], min_lon=bounds[0][1],
-               max_lon=bounds[1][1], max_bounds=True)
+m = folium.Map(tiles=None, control_scale=True, min_lat=bounds[0][0],max_lat=bounds[1][0], min_lon=bounds[0][1],max_lon=bounds[1][1], max_bounds=True)
 
 if make_BVAP_choropleth:
     # Load Choropleth Dataframe
@@ -264,7 +259,7 @@ Additional work by Connor Moffatt and Jacob Wachspress<br>
 More info <a href="https://github.com/PrincetonUniversity/VA-gerrymander">here</a>
 </div>
 '''
-    
+
 legend_box = f'''
 <style>
 #legend {{
@@ -348,4 +343,3 @@ m.get_root().header.add_child(folium.Element(
 
 filename = start_path + "Maps/Interactive/map_comparison.html"
 m.save(filename)
-
