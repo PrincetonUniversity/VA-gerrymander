@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/Analysis/Compactness')
+sys.path.append('GitHub/VA-gerrymander/Analysis/Compactness')
 import continuous_measures as cm
 import geopandas as gpd
 import pandas as pd
@@ -7,45 +7,14 @@ import tabulate
 
 start_path = ''
 
-maps = {'reform': {'name': 'PGP Reform map',
-                   'path': start_path + 'Maps/Reform map/Districts map bethune-hill final.shp',
-                   'district_colname': 'DISTRICT',
-                   'show': True},
-        'enacted': {'name': 'Enacted map',
-                    'path': start_path + 'Maps/Enacted map/enacted.shp',
-                    'district_colname': 'ID',
-                    'show': False},
-        'dems':    {'name': 'VA House Dems map',
-                    'path': start_path + 'Maps/House Dems map/HB7001.shp',
-                    'district_colname': 'OBJECTID',
-                    'show': False},
-# =============================================================================
-#         'gop_bell1':     {'name': 'VA House GOP (Bell 1)',
-#                     'path': start_path + 'Maps/GOP map bell/HB7002_shapefile.shp',
-#                     'district_colname': 'OBJECTID',
-#                     'show': False},
-# =============================================================================
-        'gop_bell2':     {'name': 'VA House GOP (Bell)',
-                    'path': start_path + 'Maps/GOP map bell substitute/HB7002_ANS.shp',
-                    'district_colname': 'OBJECTID',
-                    'show': False}, 
-        'gop_jones':    {'name': 'VA House GOP (Jones)',
-                    'path': start_path + 'Maps/GOP map jones/HB7003.shp',
-                    'district_colname': 'OBJECTID',
-                    'show': False},
-        'new_VA':    {'name': 'New VA Majority',
-                    'path': start_path + 'Maps/New VA Majority/VA NVM Map Submission 20180926.shp',
-                    'district_colname': 'District',
-                    'show': False},
-        'SM_few_changes': {'name': 'Special Master (fewest changes from Enacted)',
-                    'path':'/Users/hwheelen/Documents/GitHub/VA-gerrymander/Maps/Special Master Map/fewest changes/FewestChangesSM.shp',
-                    'district_colname': 'District_N',
-                    'show': False},
-        'SM_most_changes': {'name': 'Special Master (most changes from Enacted)',
-                    'path':'/Users/hwheelen/Documents/GitHub/VA-gerrymander/Maps/Special Master Map/most changes/MostChangesSM.shp',
-                    'district_colname': 'District_N',
-                    'show': False}
-        }
+maps = {'SM_court_order': {'name': 'New Map (Now in Effect)',
+                'path':start_path + 'Maps/Special Master Map/Court Order Map/New_Map.shp',
+                'district_colname': 'District_N',
+                'show': True},
+        'old_map': {'name': 'Old Map (Unconstitutional)',
+                'path':start_path + 'Maps/Enacted map/enacted.shp',
+                'district_colname': 'ID',
+                'show': True}}
 
 metrics = {'Reock (higher is better)': cm.reock,
            'Schwartzberg (lower is better)': cm.schwartzberg,
@@ -79,13 +48,13 @@ mean = all.pivot_table(values=metrics.keys(), index='map')
 
 all = all.pivot_table(values=metrics.keys(), index=['map', common_colname]).sort_values(by=[common_colname, 'map'])
 
-all.to_csv('/Analysis/Compactness/compactness_comparison.csv', index=True, float_format='%.3f')
-mean.to_csv('Analysis/Compactness/mean_compactness_comparison.csv', index=True, float_format='%.3f')
+all.to_csv('GitHub/VA-gerrymander/Analysis/Compactness/compactness_comparison.csv', index=True, float_format='%.3f')
+mean.to_csv('GitHub/VA-gerrymander/Analysis/Compactness/mean_compactness_comparison.csv', index=True, float_format='%.3f')
 
 def markdown_table(df, precision=3, showindex=False):
     return tabulate.tabulate(df, headers=df.columns, floatfmt=f'.{precision}g', tablefmt='pipe', showindex=showindex)
 
-with open("/Analysis/Compactness/README.md", "w") as text_file:
+with open("GitHub/VA-gerrymander/Analysis/Compactness/README.md", "w") as text_file:
     print('Various compactness metrics:\n', file=text_file)
     print(markdown_table(mean, showindex=True), file=text_file)
     print('\n\n', file=text_file)
